@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>14 Trades Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#080808;color:#F0F0F0;font-family:'Inter',sans-serif;min-height:100vh}
+.hidden{display:none!important}
+/* LOGIN */
+#login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at 50% 0%,#1A1400 0%,#080808 60%)}
+.login-box{width:100%;max-width:380px}
+.logo{text-align:center;margin-bottom:40px}
+.logo-mark{font-family:'Space Mono',monospace;font-size:48px;font-weight:700;color:#FFD700;display:block}
+.logo-sub{font-size:11px;color:#555;letter-spacing:5px;text-transform:uppercase;margin-top:6px;display:block}
+.card{background:#111;border:1px solid #1E1E1E;border-radius:14px;padding:28px;margin-bottom:16px}
+.card-title{font-size:18px;font-weight:700;margin-bottom:4px}
+.card-sub{font-size:13px;color:#555;margin-bottom:24px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:#555;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.field input{width:100%;background:#0F0F0F;border:1px solid #1E1E1E;border-radius:8px;padding:12px 14px;font-size:14px;color:#F0F0F0;font-family:'Inter',sans-serif;outline:none}
+.field input:focus{border-color:#C9A84C}
+.btn-gold{width:100%;background:linear-gradient(135deg,#C9A84C,#FFD700);border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:700;color:#000;cursor:pointer;font-family:'Inter',sans-serif;margin-top:6px}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed}
+.err{background:#FF453A15;border:1px solid #FF453A40;border-radius:8px;padding:12px;font-size:13px;color:#FF453A;margin-bottom:16px;display:none}
+.social-card{background:#111;border:1px solid #1E1E1E;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;margin-bottom:8px;transition:border-color .2s}
+.social-card:hover{border-color:#333}
+.social-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.social-name{font-size:13px;font-weight:600;color:#F0F0F0}
+.social-sub{font-size:11px;color:#555}
+.divider{display:flex;align-items:center;gap:12px;margin:16px 0}
+.divider-line{flex:1;height:1px;background:#1E1E1E}
+.divider-txt{font-size:10px;color:#333;letter-spacing:1px}
+.slogan{text-align:center;font-size:11px;color:#222;font-style:italic;margin-top:20px;letter-spacing:1px}
+/* APP */
+#app-page{display:none;min-height:100vh}
+.topnav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.95);border-bottom:1px solid #1A1A1A;padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px)}
+.nav-logo{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:#FFD700}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{background:none;border:none;padding:7px 13px;font-size:12px;color:#555;cursor:pointer;border-radius:7px;font-family:'Inter',sans-serif;font-weight:500}
+.nav-tab.on{background:#111;color:#F0F0F0;border:1px solid #1E1E1E}
+.nav-user{font-size:12px;color:#555;cursor:pointer}
+.nav-user:hover{color:#FF453A}
+.inner{max-width:860px;margin:0 auto;padding:28px 20px}
+.page-head{margin-bottom:24px}
+.page-head h1{font-size:22px;font-weight:700;margin-bottom:4px}
+.page-head p{font-size:13px;color:#555}
+/* COURSES GRID */
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:28px}
+.course-card{background:#111;border:1px solid #1E1E1E;border-radius:12px;padding:20px;cursor:pointer;transition:border-color .2s;position:relative}
+.course-card:hover{border-color:#C9A84C}
+.course-card.locked{opacity:.45;cursor:not-allowed}
+.course-card.locked:hover{border-color:#1E1E1E}
+.course-emoji{font-size:26px;margin-bottom:12px}
+.course-name{font-size:15px;font-weight:700;margin-bottom:5px}
+.course-desc{font-size:12px;color:#555;line-height:1.6;margin-bottom:14px}
+.prog-bar{height:3px;background:#1A1A1A;border-radius:2px;margin-bottom:7px}
+.prog-fill{height:3px;background:linear-gradient(90deg,#C9A84C,#FFD700);border-radius:2px}
+.prog-txt{display:flex;justify-content:space-between;font-size:10px;color:#555}
+.prog-txt span:last-child{color:#C9A84C}
+.badge{position:absolute;top:14px;right:14px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:.5px}
+/* PLAYER */
+.player-wrap{display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start}
+@media(max-width:640px){.player-wrap{grid-template-columns:1fr}.nav-tabs{display:none}}
+.sidebar{background:#111;border:1px solid #1E1E1E;border-radius:12px;overflow:hidden;position:sticky;top:70px}
+.sidebar-hdr{padding:14px 16px;border-bottom:1px solid #1A1A1A}
+.sidebar-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.sidebar-prog{font-size:10px;color:#555}
+.mod-item{padding:12px 16px;border-bottom:1px solid #1A1A1A;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s}
+.mod-item:last-child{border-bottom:none}
+.mod-item:hover{background:#0F0F0F}
+.mod-item.on{background:#0F0F0F;border-left:2px solid #C9A84C}
+.mod-num{font-family:'Space Mono',monospace;font-size:10px;color:#333;width:16px;flex-shrink:0}
+.mod-title{font-size:12px;font-weight:500;margin-bottom:1px}
+.mod-dur{font-size:10px;color:#555}
+.mod-check{font-size:12px;flex-shrink:0}
+.video-box{background:#111;border:1px solid #1E1E1E;border-radius:12px;overflow:hidden}
+.video-screen{background:#000;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative}
+.video-screen iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.video-placeholder{text-align:center;color:#333}
+.video-info{padding:16px 20px;border-bottom:1px solid #1A1A1A}
+.video-title{font-size:16px;font-weight:700;margin-bottom:4px}
+.video-meta{font-size:11px;color:#555}
+.video-actions{padding:14px 20px;display:flex;gap:10px}
+.btn-done{background:#00C87A;border:none;border-radius:8px;padding:10px 18px;font-size:12px;font-weight:700;color:#000;cursor:pointer;font-family:'Inter',sans-serif}
+.btn-done:disabled{background:#1A1A1A;color:#555;cursor:not-allowed}
+.btn-next{background:#111;border:1px solid #1E1E1E;border-radius:8px;padding:10px 18px;font-size:12px;font-weight:600;color:#F0F0F0;cursor:pointer;font-family:'Inter',sans-serif}
+.btn-next:hover{border-color:#C9A84C;color:#C9A84C}
+.back-btn{background:#111;border:1px solid #1E1E1E;border-radius:8px;padding:7px 14px;font-size:12px;color:#555;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:16px}
+/* LEADERBOARD */
+.lb-table{background:#111;border:1px solid #1E1E1E;border-radius:12px;overflow:hidden}
+.lb-row{display:grid;grid-template-columns:44px 1fr 100px 70px 80px;padding:12px 16px;border-bottom:1px solid #1A1A1A;align-items:center;gap:10px;font-size:12px}
+.lb-row:last-child{border-bottom:none}
+.lb-row.hdr{font-size:10px;color:#333;letter-spacing:.8px;text-transform:uppercase;padding:10px 16px}
+.lb-row.me{background:#C9A84C06}
+.lb-rank{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#555}
+.lb-name{font-weight:500}
+.lb-bar-w{height:3px;background:#1A1A1A;border-radius:2px;flex:1}
+.lb-bar-f{height:3px;background:linear-gradient(90deg,#C9A84C,#FFD700);border-radius:2px}
+.lb-prog{display:flex;align-items:center;gap:6px}
+.lb-pct{font-family:'Space Mono',monospace;font-size:10px;color:#C9A84C;width:28px;text-align:right}
+.lb-mods{font-family:'Space Mono',monospace;font-size:11px;color:#555;text-align:center}
+.lb-stage{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;text-align:center}
+/* HISTORY */
+.hist-item{background:#111;border:1px solid #1E1E1E;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.hist-dot{width:7px;height:7px;border-radius:50%;background:#C9A84C;flex-shrink:0}
+.hist-txt{flex:1;font-size:13px}
+.hist-time{font-size:10px;color:#555}
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#111;border:1px solid #1E1E1E;border-radius:10px;padding:11px 18px;font-size:13px;opacity:0;transition:all .3s;z-index:9999;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;padding:48px 20px;color:#333}
+.empty-icon{font-size:36px;margin-bottom:12px}
+.empty-title{font-size:15px;font-weight:600;color:#555;margin-bottom:6px}
+.notes-box{padding:16px 20px;border-top:1px solid #1A1A1A}
+.notes-lbl{font-size:10px;color:#333;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.notes-txt{font-size:12px;color:#555;line-height:1.8}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ LOGIN ═══════════════════ -->
+<div id="login-page">
+  <div class="login-box">
+    <div class="logo">
+      <span class="logo-mark">14⚡</span>
+      <span class="logo-sub">Academy</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Connexion</div>
+      <div class="card-sub">Accédez à vos cours 14 Trades</div>
+      <div class="err" id="err"></div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="inp-email" placeholder="votre@email.com">
+      </div>
+      <div class="field">
+        <label>Mot de passe</label>
+        <input type="password" id="inp-pass" placeholder="••••••••">
+      </div>
+      <button class="btn-gold" id="login-btn" onclick="doLogin()">Se connecter →</button>
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-txt">PAS ENCORE INSCRIT ?</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <a href="https://wa.me/221788255099" target="_blank" class="social-card">
+      <div class="social-icon" style="background:#25D36615">💬</div>
+      <div><div class="social-name">WhatsApp</div><div class="social-sub">+221 78 825 5099</div></div>
+    </a>
+    <a href="https://t.me/+dmul6Q--Apc3YzQ0" target="_blank" class="social-card">
+      <div class="social-icon" style="background:#229ED915">✈️</div>
+      <div><div class="social-name">Telegram</div><div class="social-sub">Communauté 14 Trades</div></div>
+    </a>
+    <a href="https://discord.gg/vkef5BWxs" target="_blank" class="social-card">
+      <div class="social-icon" style="background:#5865F215">🎮</div>
+      <div><div class="social-name">Discord</div><div class="social-sub">14 Trades · Serveur officiel</div></div>
+    </a>
+    <a href="https://app.14trade.com" target="_blank" class="social-card">
+      <div class="social-icon" style="background:#C9A84C15;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#FFD700">14⚡</div>
+      <div><div class="social-name">App Signaux</div><div class="social-sub">app.14trade.com</div></div>
+    </a>
+
+    <div class="slogan">Moi je fais le travail. Toi tu exécutes. ⚡</div>
+  </div>
+</div>
+
+<!-- ═══════════════════ APP ═══════════════════ -->
+<div id="app-page">
+  <nav class="topnav">
+    <div class="nav-logo">14⚡ Academy</div>
+    <div class="nav-tabs">
+      <button class="nav-tab on" onclick="showTab('dash',this)">Mes cours</button>
+      <button class="nav-tab" onclick="showTab('lb',this)">Classement</button>
+      <button class="nav-tab" onclick="showTab('hist',this)">Historique</button>
+    </div>
+    <div class="nav-user" id="nav-name" onclick="doLogout()">Déconnexion</div>
+  </nav>
+
+  <!-- DASHBOARD -->
+  <div id="tab-dash" class="inner">
+    <div class="page-head">
+      <h1 id="greeting">Bonjour 👋</h1>
+      <p>Continuez là où vous vous êtes arrêté.</p>
+    </div>
+    <div class="courses-grid" id="courses-grid"></div>
+    <div class="slogan" style="margin-top:0">Moi je fais le travail. Toi tu exécutes. ⚡</div>
+  </div>
+
+  <!-- PLAYER -->
+  <div id="tab-player" class="inner" style="display:none">
+    <button class="back-btn" onclick="showTab('dash',null)">← Retour</button>
+    <div class="player-wrap">
+      <div class="sidebar">
+        <div class="sidebar-hdr">
+          <div class="sidebar-title" id="sb-course-name"></div>
+          <div class="sidebar-prog" id="sb-prog"></div>
+        </div>
+        <div id="mod-list"></div>
+      </div>
+      <div class="video-box">
+        <div class="video-screen" id="video-screen">
+          <div class="video-placeholder">
+            <div style="font-size:32px;margin-bottom:10px">▶️</div>
+            <div style="font-size:13px">Sélectionnez un module</div>
+          </div>
+        </div>
+        <div class="video-info">
+          <div class="video-title" id="vid-title">Sélectionnez un module</div>
+          <div class="video-meta" id="vid-meta"></div>
+        </div>
+        <div class="video-actions">
+          <button class="btn-done" id="btn-done" onclick="markDone()" disabled>✓ Marquer comme terminé</button>
+          <button class="btn-next" id="btn-next" onclick="nextMod()" style="display:none">Suivant →</button>
+        </div>
+        <div class="notes-box" id="notes-box" style="display:none">
+          <div class="notes-lbl">Notes</div>
+          <div class="notes-txt" id="notes-txt"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="tab-lb" class="inner" style="display:none">
+    <div class="page-head"><h1>🏆 Classement</h1><p>Les étudiants les plus avancés.</p></div>
+    <div class="lb-table">
+      <div class="lb-row hdr"><div>Rang</div><div>Étudiant</div><div>Progression</div><div>Modules</div><div>Stage</div></div>
+      <div id="lb-body"></div>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="tab-hist" class="inner" style="display:none">
+    <div class="page-head"><h1>📋 Historique</h1><p>Toutes vos activités.</p></div>
+    <div id="hist-list"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SERVER = 'https://14trades-server-production.up.railway.app';
+
+// ── COURSE DATA ──────────────────────────────────────────
+const COURSES = {
+  day:   { id:'day',   name:'Day Trading',   icon:'📈', desc:'Le bon timing. La structure du jour. L\'entrée exacte.', color:'#4A9EFF', badge:'DAY' },
+  swing: { id:'swing', name:'Swing Trading', icon:'📊', desc:'Le bon jour de la semaine. Le grand mouvement.', color:'#BF5AF2', badge:'SWING' },
+  combo: { id:'combo', name:'Combo',         icon:'🔥', desc:'Day + Swing ensemble. Ne manquez plus rien.', color:'#FFD700', badge:'COMBO' }
+};
+
+const DEFAULT_MODULES = {
+  day:   [{id:'day-1',title:'Le Timing',dur:'~15 min',notes:'London Open et NY Open sont vos deux fenêtres. Apprenez exactement quand entrer.'},{id:'day-2',title:'La Structure',dur:'~15 min',notes:'Lire le marché Gold avant de prendre position. Direction du jour.'},{id:'day-3',title:'L\'Entrée',dur:'~15 min',notes:'Placement précis entrée, SL, TP1/TP2/TP3. Tout défini avant d\'entrer.'}],
+  swing: [{id:'sw-1',title:'Le Timing Hebdo',dur:'~15 min',notes:'Quel jour de la semaine trader. Cycles Gold sur D1.'},{id:'sw-2',title:'La Structure',dur:'~15 min',notes:'Lire D1/H4. Higher Highs, Higher Lows. Zones clés de la semaine.'},{id:'sw-3',title:'L\'Entrée Swing',dur:'~15 min',notes:'Setup D1→H4→H1. Entrée sur confirmation. Gestion sur plusieurs jours.'}],
+  combo: [{id:'co-1',title:'Stratégie Combo',dur:'~20 min',notes:'Combiner day trading et swing. Quand utiliser l\'un ou l\'autre.'},{id:'co-2',title:'Analyses Exclusives',dur:'~20 min',notes:'Analyses de marchés réels. Gold, BTC, Nasdaq. Lire une semaine complète.'}]
+};
+
+// ── STATE ────────────────────────────────────────────────
+let user = null;
+let progress = {};
+let history = [];
+let modules = JSON.parse(JSON.stringify(DEFAULT_MODULES));
+let activeCourse = null;
+let activeMod = 0;
+
+// ── LOGIN ────────────────────────────────────────────────
+async function doLogin() {
+  const email = document.getElementById('inp-email').value.trim();
+  const pass  = document.getElementById('inp-pass').value.trim();
+  const btn   = document.getElementById('login-btn');
+  const err   = document.getElementById('err');
+
+  err.style.display = 'none';
+
+  if (!email || !pass) { showErr('Remplissez tous les champs.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Connexion...';
+
+  // Demo mode
+  if (email === 'demo@14trade.com' && pass === 'demo123') {
+    user = { name:'Demo', email, courses:['day','swing','combo'] };
+    localStorage.setItem('14t_cu', JSON.stringify({token:'demo', student:user}));
+    openApp();
+    return;
+  }
+
+  try {
+    const res = await fetch(SERVER + '/api/courses/login', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      user = data.student;
+      localStorage.setItem('14t_cu', JSON.stringify({token:data.token, student:data.student}));
+      await fetchProgress(data.token);
+      openApp();
+    } else {
+      showErr(data.error || 'Email ou mot de passe incorrect.');
+    }
+  } catch(e) {
+    showErr('Erreur de connexion. Vérifiez internet.');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Se connecter →';
+}
+
+function showErr(msg) {
+  const el = document.getElementById('err');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function doLogout() {
+  localStorage.removeItem('14t_cu');
+  user = null; progress = {}; history = [];
+  document.getElementById('app-page').style.display = 'none';
+  document.getElementById('login-page').style.display = 'flex';
+  window.scrollTo(0,0);
+}
+
+// ── OPEN APP ─────────────────────────────────────────────
+function openApp() {
+  document.getElementById('login-page').style.display = 'none';
+  document.getElementById('app-page').style.display = 'block';
+  window.scrollTo(0,0);
+  const name = (user.name||user.email||'').split(' ')[0];
+  document.getElementById('greeting').textContent = 'Bonjour ' + (name||'') + ' 👋';
+  document.getElementById('nav-name').textContent = name || user.email;
+  renderDash();
+  renderLb();
+  renderHist();
+  fetchVideos();
+}
+
+// ── PROGRESS ─────────────────────────────────────────────
+async function fetchProgress(token) {
+  try {
+    const r = await fetch(SERVER + '/api/courses/progress', {
+      headers: {'x-course-token': token}
+    });
+    const d = await r.json();
+    if (d.ok) { progress = d.progress||{}; history = d.history||[]; }
+  } catch(e) {}
+}
+
+async function fetchVideos() {
+  try {
+    const r = await fetch(SERVER + '/api/courses/videos');
+    const d = await r.json();
+    if (d.ok && d.videos) {
+      Object.entries(d.videos).forEach(([cid, mods]) => {
+        if (mods.length) modules[cid] = mods.map(m => ({
+          id: m.module_id, title: m.title,
+          dur: m.duration||'~15 min',
+          notes: m.notes||'',
+          youtube: m.youtube_url||''
+        }));
+      });
+    }
+  } catch(e) {}
+}
+
+// ── DASHBOARD ────────────────────────────────────────────
+function renderDash() {
+  const enrolled = user.courses||[];
+  const grid = document.getElementById('courses-grid');
+  grid.innerHTML = Object.values(COURSES).map(c => {
+    const mods   = modules[c.id]||[];
+    const done   = mods.filter(m => progress[m.id]).length;
+    const total  = mods.length;
+    const pct    = total ? Math.round(done/total*100) : 0;
+    const isIn   = enrolled.includes(c.id);
+    return `<div class="course-card${isIn?'':' locked'}" onclick="${isIn?`openCourse('${c.id}')`:''}" >
+      <span class="badge" style="background:${c.color}20;color:${c.color};border:1px solid ${c.color}30">${isIn?c.badge:'🔒'}</span>
+      <div class="course-emoji">${c.icon}</div>
+      <div class="course-name">${c.name}</div>
+      <div class="course-desc">${c.desc}</div>
+      ${isIn ? `
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+      <div class="prog-txt"><span>${done}/${total} modules</span><span>${pct}%</span></div>` :
+      `<div style="font-size:11px;color:#333">Contactez Sadikh pour accéder</div>`}
+    </div>`;
+  }).join('');
+}
+
+// ── COURSE PLAYER ─────────────────────────────────────────
+function openCourse(cid) {
+  activeCourse = cid;
+  activeMod = 0;
+  const mods = modules[cid]||[];
+  for (let i=0;i<mods.length;i++) { if (!progress[mods[i].id]) { activeMod=i; break; } }
+  showTab('player',null);
+  renderSidebar();
+  loadMod(activeMod);
+}
+
+function renderSidebar() {
+  const c    = COURSES[activeCourse];
+  const mods = modules[activeCourse]||[];
+  const done = mods.filter(m=>progress[m.id]).length;
+  document.getElementById('sb-course-name').textContent = c.name;
+  document.getElementById('sb-prog').textContent = done+'/'+mods.length+' complétés';
+  document.getElementById('mod-list').innerHTML = mods.map((m,i) =>
+    `<div class="mod-item${i===activeMod?' on':''}" onclick="loadMod(${i})">
+      <div class="mod-num">0${i+1}</div>
+      <div><div class="mod-title">${m.title}</div><div class="mod-dur">${m.dur}</div></div>
+      <div class="mod-check">${progress[m.id]?'✅':'○'}</div>
+    </div>`
+  ).join('');
+}
+
+function loadMod(idx) {
+  activeMod = idx;
+  const mods = modules[activeCourse]||[];
+  const m    = mods[idx];
+  if (!m) return;
+  const done = !!progress[m.id];
+
+  // Video
+  const screen = document.getElementById('video-screen');
+  if (m.youtube) {
+    const ytId = m.youtube.match(/(?:youtu\.be\/|v=)([^&\s]+)/)?.[1] || m.youtube;
+    screen.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1" allowfullscreen></iframe>`;
+  } else {
+    screen.innerHTML = `<div class="video-placeholder"><div style="font-size:32px;margin-bottom:10px">🎬</div><div style="font-size:13px;color:#333">Vidéo à venir</div></div>`;
+  }
+
+  document.getElementById('vid-title').textContent = m.title;
+  document.getElementById('vid-meta').textContent  = 'Module '+(idx+1)+' · '+(COURSES[activeCourse]?.name||'');
+
+  const btnDone = document.getElementById('btn-done');
+  btnDone.disabled = done;
+  btnDone.textContent = done ? '✓ Terminé' : '✓ Marquer comme terminé';
+  btnDone.style.background = done ? '#1A1A1A' : '#00C87A';
+  btnDone.style.color      = done ? '#555' : '#000';
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.style.display = idx < mods.length-1 ? 'block' : 'none';
+
+  const notesBox = document.getElementById('notes-box');
+  if (m.notes) { notesBox.style.display='block'; document.getElementById('notes-txt').textContent=m.notes; }
+  else notesBox.style.display='none';
+
+  renderSidebar();
+}
+
+async function markDone() {
+  const mods = modules[activeCourse]||[];
+  const m    = mods[activeMod];
+  if (!m || progress[m.id]) return;
+  progress[m.id] = true;
+
+  try {
+    const saved = JSON.parse(localStorage.getItem('14t_cu')||'{}');
+    await fetch(SERVER+'/api/courses/progress', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-course-token':saved.token||''},
+      body: JSON.stringify({moduleId:m.id, courseId:activeCourse})
+    });
+  } catch(e) {}
+
+  history.unshift({text:`Module terminé — ${COURSES[activeCourse]?.name} · ${m.title}`, time:new Date().toLocaleDateString('fr-FR')});
+  showToast('✅ Module terminé !');
+  loadMod(activeMod);
+  renderDash();
+  renderHist();
+  if (activeMod < mods.length-1) setTimeout(()=>loadMod(activeMod+1), 700);
+}
+
+function nextMod() {
+  const mods = modules[activeCourse]||[];
+  if (activeMod < mods.length-1) loadMod(activeMod+1);
+}
+
+// ── LEADERBOARD ──────────────────────────────────────────
+async function renderLb() {
+  const body = document.getElementById('lb-body');
+  try {
+    const r = await fetch(SERVER+'/api/courses/leaderboard');
+    const d = await r.json();
+    const students = d.students||[];
+    if (!students.length) { body.innerHTML='<div class="empty"><div class="empty-icon">🏆</div><div class="empty-title">Bientôt disponible</div></div>'; return; }
+    const stages = [{min:8,label:'💎 Diamond',bg:'#4A9EFF15',color:'#4A9EFF'},{min:6,label:'🥇 Gold',bg:'#FFD70015',color:'#C9A84C'},{min:4,label:'🥈 Silver',bg:'#C0C0C015',color:'#C0C0C0'},{min:0,label:'🥉 Starter',bg:'#55555515',color:'#555'}];
+    const getStage = n => stages.find(s=>n>=s.min)||stages[3];
+    body.innerHTML = students.map((s,i) => {
+      const rank  = i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1);
+      const isMe  = s.email === user?.email;
+      const stage = getStage(s.totalDone||0);
+      return `<div class="lb-row${isMe?' me':''}">
+        <div class="lb-rank" style="${i<3?'color:#C9A84C':''}">${rank}</div>
+        <div><div class="lb-name">${s.name||s.email.split('@')[0]}${isMe?' (vous)':''}</div><div style="font-size:10px;color:#333">${(s.courses||[]).join(', ')}</div></div>
+        <div class="lb-prog"><div class="lb-bar-w"><div class="lb-bar-f" style="width:${s.pct||0}%"></div></div><div class="lb-pct">${s.pct||0}%</div></div>
+        <div class="lb-mods">${s.totalDone||0}/${s.totalMods||0}</div>
+        <div><span class="lb-stage" style="background:${stage.bg};color:${stage.color}">${stage.label}</span></div>
+      </div>`;
+    }).join('');
+  } catch(e) { body.innerHTML='<div class="empty"><div class="empty-title">Classement bientôt</div></div>'; }
+}
+
+// ── HISTORY ──────────────────────────────────────────────
+function renderHist() {
+  const el = document.getElementById('hist-list');
+  if (!history.length) { el.innerHTML='<div class="empty"><div class="empty-icon">📋</div><div class="empty-title">Aucune activité</div></div>'; return; }
+  el.innerHTML = history.slice(0,30).map(h=>`<div class="hist-item"><div class="hist-dot"></div><div class="hist-txt">${h.text}</div><div class="hist-time">${h.time}</div></div>`).join('');
+}
+
+// ── TABS ─────────────────────────────────────────────────
+function showTab(tab, btn) {
+  ['dash','player','lb','hist'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t===tab?'block':'none';
+  });
+  if (btn) { document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); }
+}
+
+// ── TOAST ────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// ── AUTO LOGIN ───────────────────────────────────────────
+window.addEventListener('load', async () => {
+  const saved = localStorage.getItem('14t_cu');
+  if (saved) {
+    try {
+      const {token, student} = JSON.parse(saved);
+      user = student;
+      await fetchProgress(token);
+      openApp();
+      return;
+    } catch(e) { localStorage.removeItem('14t_cu'); }
+  }
+
+  // Enter key
+  document.getElementById('inp-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+  document.getElementById('inp-email').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('inp-pass').focus(); });
+});
+</script>
+</body>
+</html>
