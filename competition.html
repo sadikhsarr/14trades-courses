@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>14 Trades Challenge Cup</title>
+<meta property="og:title" content="14 Trades Challenge Cup">
+<meta property="og:description" content="Compétition mensuelle de trading. Classement par % de gain. Récompenses exclusives.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080808;--bg2:#0D0D0D;--bg3:#111;--bg4:#161616;
+  --border:#1A1A1A;--border2:#222;
+  --gold:#C9A84C;--gold2:#FFD700;
+  --white:#F0F0F0;--muted:#666;--dim:#333;
+  --green:#00C87A;--red:#FF453A;
+  --mono:'Space Mono',monospace;--sans:'Inter',sans-serif;
+  --r:12px;
+}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:99;height:56px;border-bottom:1px solid var(--border);background:rgba(8,8,8,.92);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.nav-logo{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--gold2)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-link{font-size:12px;color:var(--muted);padding:6px 12px;border-radius:8px;transition:color .2s}
+.nav-link:hover{color:var(--white)}
+.nav-cta{background:var(--gold2);color:#000;border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans)}
+
+/* HERO */
+.hero{text-align:center;padding:56px 24px 48px;max-width:640px;margin:0 auto}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid #FFD70025;border-radius:40px;padding:5px 14px;margin-bottom:24px}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--gold2);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-pill-txt{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:.5px}
+.hero h1{font-size:clamp(32px,6vw,52px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:14px}
+.hero h1 span{color:var(--gold2)}
+.hero-sub{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:32px}
+
+/* COUNTDOWN */
+.countdown-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:20px;max-width:480px;margin:0 auto 48px;text-align:center}
+.countdown-lbl{font-size:10px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.countdown-boxes{display:flex;justify-content:center;align-items:center;gap:8px}
+.cd-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;min-width:56px}
+.cd-val{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--gold2);display:block}
+.cd-lbl{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;margin-top:4px;display:block}
+.cd-sep{font-family:var(--mono);font-size:20px;color:var(--dim);margin-bottom:12px}
+
+/* SECTION */
+.section{max-width:640px;margin:0 auto;padding:0 24px 56px}
+.section-tag{display:inline-block;background:var(--bg3);border:1px solid #FFD70020;border-radius:40px;padding:4px 14px;font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+.section h2{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.section h2 span{color:var(--gold2)}
+.section-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.7}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:48px;max-width:640px;margin-left:auto;margin-right:auto}
+.stat{padding:18px;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-val{font-family:var(--mono);font-size:22px;font-weight:700;margin-bottom:3px}
+.stat-lbl{font-size:9px;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+
+/* LEADERBOARD */
+.lb{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.lb-row{display:grid;grid-template-columns:44px 1fr 90px 70px;padding:13px 18px;border-bottom:1px solid var(--border);align-items:center;gap:10px;font-size:13px}
+.lb-row:last-child{border-bottom:none}
+.lb-row.hdr{font-size:10px;color:var(--dim);letter-spacing:.8px;text-transform:uppercase;padding:10px 18px}
+.lb-rank{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--dim)}
+.lb-name{font-weight:500}
+.lb-loc{font-size:10px;color:var(--dim);margin-top:1px}
+.lb-gain{font-family:var(--mono);font-weight:700}
+.lb-trades{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center}
+
+/* REWARDS */
+.rewards{display:flex;flex-direction:column;gap:12px}
+.reward{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;display:flex;align-items:flex-start;gap:16px;transition:border-color .2s}
+.reward:first-child{border-color:#FFD70030}
+.reward-medal{font-size:28px;flex-shrink:0}
+.reward-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.reward-desc{font-size:13px;color:var(--muted);line-height:1.5}
+.reward-value{font-family:var(--mono);font-size:11px;color:var(--gold);margin-top:4px}
+
+/* JOIN SECTION */
+.join-section{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:24px}
+.join-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.join-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.competitions-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .2s}
+.comp-card:hover{border-color:var(--gold)}
+.comp-card.selected{border-color:var(--gold);background:#1A1400}
+.comp-card-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--dim);flex-shrink:0;transition:all .2s}
+.comp-card.selected .comp-card-dot{background:var(--gold2);border-color:var(--gold2)}
+.comp-card-info{flex:1}
+.comp-card-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.comp-card-date{font-size:11px;color:var(--muted)}
+.comp-card-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+.badge-active{background:#00C87A15;color:var(--green);border:1px solid #00C87A25}
+.badge-soon{background:#FFD70015;color:var(--gold);border:1px solid #FFD70025}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.field input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:12px 14px;font-size:14px;color:var(--white);font-family:var(--sans);outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--gold)}
+.note{background:#1A1500;border:1px solid #FFD70020;border-radius:9px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.btn-join{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:800;color:#000;cursor:pointer;font-family:var(--sans)}
+.btn-join:hover{opacity:.9}
+.btn-join:disabled{opacity:.5;cursor:not-allowed}
+
+/* RULES */
+.rules{display:flex;flex-direction:column;gap:8px}
+.rule{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--border)}
+.rule:last-child{border-bottom:none}
+.rule-icon{font-size:13px;font-weight:700;flex-shrink:0;width:16px;margin-top:1px}
+
+/* HFM */
+.hfm-banner{background:linear-gradient(135deg,#1A1400,#0F0D00);border:1px solid #FFD70025;border-radius:16px;padding:24px;text-align:center;margin-bottom:48px}
+.hfm-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.hfm-sub{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6}
+.hfm-btn{display:inline-block;background:var(--gold2);color:#000;border-radius:10px;padding:12px 28px;font-size:13px;font-weight:800;font-family:var(--sans)}
+
+/* UPCOMING */
+.upcoming-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.upcoming-cards{grid-template-columns:1fr}.lb-row{grid-template-columns:44px 1fr 70px}.lb-trades{display:none}.countdown-boxes{gap:4px}.cd-box{min-width:44px;padding:8px 8px}.cd-val{font-size:18px}.stats{grid-template-columns:1fr 1fr}}
+.up-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px}
+.up-month{font-size:14px;font-weight:700;margin-bottom:4px}
+.up-date{font-size:11px;color:var(--muted);margin-bottom:12px}
+.up-progress{height:3px;background:var(--bg4);border-radius:2px;margin-bottom:8px}
+.up-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px}
+.up-enrolled{font-size:11px;color:var(--muted)}
+.btn-enroll{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:9px;font-size:12px;font-weight:600;color:var(--white);cursor:pointer;font-family:var(--sans);margin-top:12px;transition:all .2s}
+.btn-enroll:hover{border-color:var(--gold);color:var(--gold)}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center}
+.footer-logo{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--gold2);margin-bottom:6px}
+.footer-links{display:flex;justify-content:center;gap:20px;margin-bottom:8px}
+.footer-link{font-size:12px;color:var(--muted)}
+.footer-link:hover{color:var(--white)}
+.footer-slogan{font-size:11px;color:var(--dim);font-style:italic}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 20px;font-size:13px;opacity:0;transition:all .3s;z-index:9999;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;padding:40px 20px;color:var(--dim)}
+.empty-icon{font-size:36px;margin-bottom:12px}
+.empty-title{font-size:15px;font-weight:600;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">14⚡</div>
+  <div class="nav-right">
+    <a href="https://app.14trade.com" class="nav-link">App Signaux</a>
+    <a href="https://discord.gg/vkef5BWxs" class="nav-link">Discord</a>
+    <a href="https://wa.me/221788255099" class="nav-link">WhatsApp</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div style="background:radial-gradient(ellipse at 50% 0%,#1A1400 0%,transparent 60%)">
+  <div class="hero">
+    <div class="hero-pill">
+      <div class="hero-dot"></div>
+      <span class="hero-pill-txt">COMPÉTITION EN COURS · AOÛT 2026</span>
+    </div>
+    <h1>14 Trades<br><span>Challenge Cup</span></h1>
+    <p class="hero-sub">Compétition mensuelle de trading réel.<br>HFM Cent account · Classement par % de gain · Ouvert à tous.</p>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div style="padding:0 24px">
+    <div class="countdown-wrap">
+      <div class="countdown-lbl">Compétition Août 2026 — Se termine dans</div>
+      <div class="countdown-boxes">
+        <div class="cd-box"><span class="cd-val" id="cd-d">14</span><span class="cd-lbl">Jours</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><span class="cd-val" id="cd-h">08</span><span class="cd-lbl">Heures</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><span class="cd-val" id="cd-m">22</span><span class="cd-lbl">Min</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><span class="cd-val" id="cd-s">47</span><span class="cd-lbl">Sec</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div style="padding:0 24px;max-width:640px;margin:0 auto 48px">
+    <div class="stats">
+      <div class="stat"><div class="stat-val" id="stat-participants">23</div><div class="stat-lbl">Participants</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--green)" id="stat-leader">+47%</div><div class="stat-lbl">Leader actuel</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--gold2)">$300</div><div class="stat-lbl">1er prix</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LEADERBOARD -->
+<div class="section">
+  <div class="section-tag">Classement live</div>
+  <h2>Qui <span>mène</span> ce mois ?</h2>
+  <p class="section-sub">Mis à jour après vérification des résultats. Classement par % de gain — toute balance de départ acceptée.</p>
+  <div class="lb" id="lb-container">
+    <div class="lb-row hdr"><div>Rang</div><div>Trader</div><div>Gain %</div><div>Trades</div></div>
+    <div id="lb-body">
+      <div class="empty"><div class="empty-icon">🏆</div><div class="empty-title">Chargement...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- UPCOMING -->
+<div class="section">
+  <div class="section-tag">Prochaines compétitions</div>
+  <h2>Inscrivez-vous <span>en avance</span></h2>
+  <p class="section-sub">Pré-inscrivez-vous pour les prochains mois. Vous serez automatiquement activés au début de chaque compétition.</p>
+  <div class="upcoming-cards" id="upcoming-cards">
+    <div class="up-card">
+      <div class="up-month">Septembre 2026</div>
+      <div class="up-date">1 Sep → 28 Sep 2026</div>
+      <div class="up-progress"><div class="up-progress-fill" style="width:0%"></div></div>
+      <div class="up-enrolled" id="sep-count">0 pré-inscrits</div>
+      <button class="btn-enroll" onclick="preRegister('sep')">S'inscrire en avance →</button>
+    </div>
+    <div class="up-card">
+      <div class="up-month">Octobre 2026</div>
+      <div class="up-date">1 Oct → 28 Oct 2026</div>
+      <div class="up-progress"><div class="up-progress-fill" style="width:0%"></div></div>
+      <div class="up-enrolled" id="oct-count">0 pré-inscrits</div>
+      <button class="btn-enroll" onclick="preRegister('oct')">S'inscrire en avance →</button>
+    </div>
+  </div>
+</div>
+
+<!-- JOIN -->
+<div class="section">
+  <div class="section-tag">Rejoindre</div>
+  <h2>Participez <span>maintenant</span></h2>
+  <p class="section-sub">Choisissez la compétition et remplissez vos informations. Votre inscription sera validée dans les 24h.</p>
+
+  <div class="join-section">
+    <div class="join-title">Inscription</div>
+    <div class="join-sub">Sélectionnez une compétition puis remplissez vos informations.</div>
+
+    <!-- Competition selector -->
+    <div class="competitions-list" id="comp-selector">
+      <div class="comp-card selected" onclick="selectComp(this,'aug')">
+        <div class="comp-card-dot"></div>
+        <div class="comp-card-info">
+          <div class="comp-card-name">Challenge Cup — Août 2026</div>
+          <div class="comp-card-date">1 Août → 28 Août 2026</div>
+        </div>
+        <span class="comp-card-badge badge-active">En cours</span>
+      </div>
+      <div class="comp-card" onclick="selectComp(this,'sep')">
+        <div class="comp-card-dot"></div>
+        <div class="comp-card-info">
+          <div class="comp-card-name">Challenge Cup — Septembre 2026</div>
+          <div class="comp-card-date">1 Sep → 28 Sep 2026</div>
+        </div>
+        <span class="comp-card-badge badge-soon">Pré-inscription</span>
+      </div>
+      <div class="comp-card" onclick="selectComp(this,'oct')">
+        <div class="comp-card-dot"></div>
+        <div class="comp-card-info">
+          <div class="comp-card-name">Challenge Cup — Octobre 2026</div>
+          <div class="comp-card-date">1 Oct → 28 Oct 2026</div>
+        </div>
+        <span class="comp-card-badge badge-soon">Pré-inscription</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Votre nom complet</label>
+      <input type="text" id="j-name" placeholder="Prénom + Nom">
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="j-email" placeholder="votre@email.com">
+    </div>
+    <div class="field">
+      <label>Numéro de compte HFM Cent</label>
+      <input type="text" id="j-hfm" placeholder="ex: 12345678">
+    </div>
+    <div class="field">
+      <label>Balance de départ (en cents)</label>
+      <input type="number" id="j-balance" placeholder="ex: 1000 cents = $10">
+    </div>
+    <div class="note">
+      ⚠️ Compte HFM Cent uniquement (existant ou nouveau).<br>
+      Envoyez un screenshot de votre balance de départ sur WhatsApp :<br>
+      <strong style="color:var(--white)">+221 78 825 5099</strong><br>
+      Votre inscription sera validée dans les 24h.
+    </div>
+    <button class="btn-join" id="btn-join" onclick="joinComp()">Rejoindre la compétition →</button>
+    <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted)">Vous devez être connecté pour vous inscrire · <a href="/?redirect=competition" style="color:var(--gold)">Se connecter →</a></div>
+  </div>
+</div>
+
+<!-- HFM BANNER -->
+<div class="section">
+  <div class="hfm-banner">
+    <div class="hfm-title">Pas encore de compte HFM ?</div>
+    <p class="hfm-sub">Ouvrez un compte Cent gratuitement via notre lien partenaire.<br>Commencez avec aussi peu que $5 — et compétitionnez avec n'importe quelle balance.</p>
+    <a href="https://www.hfm.com/sv/en/?refid=30488301" target="_blank" class="hfm-btn">Ouvrir un compte HFM Cent →</a>
+  </div>
+</div>
+
+<!-- REWARDS -->
+<div class="section">
+  <div class="section-tag">Récompenses</div>
+  <h2>Ce que vous <span>gagnez</span></h2>
+  <p class="section-sub">Les 3 meilleurs traders du mois reçoivent des récompenses exclusives 14 Trades.</p>
+  <div class="rewards">
+    <div class="reward">
+      <div class="reward-medal">🥇</div>
+      <div>
+        <div class="reward-title">1ère place</div>
+        <div class="reward-desc">Formation Day Trading complète + 1 mois Signal Alert gratuit</div>
+        <div class="reward-value">Valeur $400</div>
+      </div>
+    </div>
+    <div class="reward">
+      <div class="reward-medal">🥈</div>
+      <div>
+        <div class="reward-title">2ème place</div>
+        <div class="reward-desc">1 mois Signal Alert gratuit — signaux en temps réel sur Gold, BTC, Nasdaq</div>
+        <div class="reward-value">Valeur $100</div>
+      </div>
+    </div>
+    <div class="reward">
+      <div class="reward-medal">🥉</div>
+      <div>
+        <div class="reward-title">3ème place</div>
+        <div class="reward-desc">50% de réduction sur le prochain mois d'abonnement</div>
+        <div class="reward-value">Valeur $50</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RULES -->
+<div class="section">
+  <div class="section-tag">Règles</div>
+  <h2>Comment <span>ça marche</span></h2>
+  <p class="section-sub">Simple et transparent. Pas de frais d'entrée. Pas de dépôt minimum.</p>
+  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:20px">
+    <div class="rules">
+      <div class="rule"><span class="rule-icon" style="color:var(--green)">✓</span>Compte HFM Cent uniquement — existant ou nouveau via notre lien</div>
+      <div class="rule"><span class="rule-icon" style="color:var(--green)">✓</span>N'importe quelle balance de départ — classement par % de gain uniquement</div>
+      <div class="rule"><span class="rule-icon" style="color:var(--green)">✓</span>Ouvert à tous — pas besoin d'être abonné 14 Trades</div>
+      <div class="rule"><span class="rule-icon" style="color:var(--green)">✓</span>Screenshot balance départ Jour 1 → WhatsApp pour validation</div>
+      <div class="rule"><span class="rule-icon" style="color:var(--green)">✓</span>Screenshot balance finale Jour 28 → résultats vérifiés</div>
+      <div class="rule"><span class="rule-icon" style="color:var(--green)">✓</span>Compétition du 1er au 28 de chaque mois</div>
+      <div class="rule"><span class="rule-icon" style="color:var(--red)">✗</span>Autres brokers non éligibles</div>
+      <div class="rule"><span class="rule-icon" style="color:var(--red)">✗</span>Comptes démo non éligibles — trading réel uniquement</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-logo">14⚡</div>
+  <div class="footer-links">
+    <a href="/" class="footer-link">Cours Academy</a>
+    <a href="https://app.14trade.com" class="footer-link">App Signaux</a>
+    <a href="https://discord.gg/vkef5BWxs" class="footer-link">Discord</a>
+    <a href="https://wa.me/221788255099" class="footer-link">WhatsApp</a>
+  </div>
+  <div class="footer-slogan">Moi je fais le travail. Toi tu exécutes. ⚡</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SERVER = 'https://14trades-server-production.up.railway.app';
+let selectedComp = 'aug';
+
+// ── COUNTDOWN ──────────────────────────────────────────────────────
+function startCountdown(endDate) {
+  function tick() {
+    const ms = new Date(endDate) - Date.now();
+    if (ms <= 0) {
+      ['cd-d','cd-h','cd-m','cd-s'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent='00'; });
+      return;
+    }
+    const d = Math.floor(ms/86400000);
+    const h = Math.floor((ms%86400000)/3600000);
+    const m = Math.floor((ms%3600000)/60000);
+    const s = Math.floor((ms%60000)/1000);
+    const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=String(v).padStart(2,'0'); };
+    set('cd-d',d); set('cd-h',h); set('cd-m',m); set('cd-s',s);
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+// ── LEADERBOARD ────────────────────────────────────────────────────
+async function loadLeaderboard() {
+  try {
+    const r = await fetch(SERVER+'/api/competition/current');
+    const d = await r.json();
+    if (!d.ok || !d.competition) {
+      document.getElementById('lb-body').innerHTML = '<div class="empty"><div class="empty-icon">🏆</div><div class="empty-title">Compétition bientôt</div></div>';
+      return;
+    }
+
+    const c = d.competition;
+    const entries = d.entries || [];
+
+    // Update hero pill
+    document.querySelector('.hero-pill-txt').textContent = 'COMPÉTITION EN COURS · ' + (c.month||'').toUpperCase();
+    document.querySelector('.countdown-wrap div').textContent = 'Compétition ' + (c.month||'') + ' — Se termine dans';
+
+    // Start countdown
+    startCountdown(c.end_date);
+
+    // Update stats
+    document.getElementById('stat-participants').textContent = entries.length;
+    if (entries.length > 0) {
+      const leader = entries[0];
+      document.getElementById('stat-leader').textContent = (parseFloat(leader.gain_pct)>=0?'+':'')+parseFloat(leader.gain_pct||0).toFixed(1)+'%';
+    }
+
+    // Render leaderboard
+    const body = document.getElementById('lb-body');
+    if (!entries.length) {
+      body.innerHTML = '<div class="empty"><div class="empty-icon">🏆</div><div class="empty-title">Pas encore de résultats vérifiés</div></div>';
+      return;
+    }
+    const medals = ['🥇','🥈','🥉'];
+    body.innerHTML = entries.map((e,i) => {
+      const gain = parseFloat(e.gain_pct)||0;
+      const color = gain>=0?'var(--green)':'var(--red)';
+      return '<div class="lb-row">' +
+        '<div class="lb-rank" style="'+(i<3?'color:var(--gold2)':'')+'">'+(medals[i]||'#'+(i+1))+'</div>' +
+        '<div><div class="lb-name">'+e.name+'</div></div>' +
+        '<div class="lb-gain" style="color:'+color+'">'+(gain>=0?'+':'')+gain.toFixed(1)+'%</div>' +
+        '<div class="lb-trades">'+(e.trades||0)+'</div>' +
+        '</div>';
+    }).join('');
+
+    // Update upcoming pre-reg counts
+    loadUpcoming();
+  } catch(e) {
+    startCountdown(new Date('2026-08-28T23:59:59'));
+    document.getElementById('lb-body').innerHTML = '<div class="empty"><div class="empty-icon">🏆</div><div class="empty-title">Chargement du classement...</div></div>';
+  }
+}
+
+async function loadUpcoming() {
+  // Load pre-registration counts for upcoming competitions
+  try {
+    const r = await fetch(SERVER+'/api/competition/upcoming');
+    const d = await r.json();
+    if (d.upcoming) {
+      d.upcoming.forEach(comp => {
+        const countEl = document.getElementById(comp.key+'-count');
+        if (countEl) countEl.textContent = (comp.count||0)+' pré-inscrits';
+      });
+    }
+  } catch(e) {}
+}
+
+// ── COMPETITION SELECTOR ───────────────────────────────────────────
+function selectComp(el, key) {
+  document.querySelectorAll('.comp-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedComp = key;
+}
+
+// ── JOIN ───────────────────────────────────────────────────────────
+async function joinComp() {
+  // Check if logged in
+  const saved = localStorage.getItem('14t_cu');
+  if (!saved) {
+    // Redirect to login with return URL
+    window.location.href = '/?redirect=competition';
+    return;
+  }
+
+  const { student } = JSON.parse(saved);
+  const name    = document.getElementById('j-name').value.trim() || student.name || '';
+  const email   = document.getElementById('j-email').value.trim() || student.email || '';
+  const hfm     = document.getElementById('j-hfm').value.trim();
+  const balance = document.getElementById('j-balance').value.trim();
+  const btn     = document.getElementById('btn-join');
+
+  if (!hfm || !balance) { showToast('❌ Remplissez tous les champs'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Inscription en cours...';
+
+  try {
+    const r = await fetch(SERVER+'/api/competition/join', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({name, email, hfmAccount:hfm, startBalance:parseFloat(balance), competitionKey:selectedComp})
+    });
+    const d = await r.json();
+    if (d.ok) {
+      showToast('✅ Inscription enregistrée !');
+      btn.textContent = '✓ Inscrit — en attente de vérification';
+      btn.style.background = 'var(--bg4)';
+      btn.style.color = 'var(--muted)';
+      // Update participant count
+      const statEl = document.getElementById('stat-participants');
+      if (statEl) statEl.textContent = parseInt(statEl.textContent||0)+1;
+    } else {
+      showToast('❌ '+(d.error||'Erreur'));
+      btn.disabled = false;
+      btn.textContent = 'Rejoindre la compétition →';
+    }
+  } catch(e) {
+    showToast('❌ Erreur de connexion');
+    btn.disabled = false;
+    btn.textContent = 'Rejoindre la compétition →';
+  }
+}
+
+function preRegister(month) {
+  selectComp(document.querySelectorAll('.comp-card')[month==='sep'?1:2], month);
+  document.querySelector('.join-section').scrollIntoView({behavior:'smooth'});
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// ── BOOT ───────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  loadLeaderboard();
+  startCountdown(new Date('2026-08-28T23:59:59'));
+
+  // Auto-fill if already logged in
+  const saved = localStorage.getItem('14t_cu');
+  if (saved) {
+    try {
+      const { student } = JSON.parse(saved);
+      if (student.name) document.getElementById('j-name').value = student.name;
+      if (student.email) document.getElementById('j-email').value = student.email;
+      // Hide login note — already connected
+      const loginNote = document.querySelector('[href="/?redirect=competition"]');
+      if (loginNote) loginNote.closest('div').style.display = 'none';
+    } catch(e) {}
+  }
+
+  // Handle redirect back from login
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('joined') === '1') {
+    showToast('✅ Connecté — complétez votre inscription');
+    document.querySelector('.join-section').scrollIntoView({behavior:'smooth'});
+  }
+});
+</script>
+</body>
+</html>
