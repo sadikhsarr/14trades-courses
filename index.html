@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>14 Trades Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080808;--bg2:#0D0D0D;--bg3:#111;--bg4:#161616;
+  --border:#1A1A1A;--border2:#222;
+  --gold:#C9A84C;--gold2:#FFD700;
+  --white:#F0F0F0;--muted:#666;--dim:#333;
+  --green:#00C87A;--red:#FF453A;--blue:#4A9EFF;--purple:#BF5AF2;
+  --mono:'Space Mono',monospace;--sans:'Inter',sans-serif;
+  --r:12px;--r2:16px;
+}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--sans);cursor:pointer}
+
+/* ── LANDING ─────────────────────────────── */
+#landing{display:block}
+#app{display:none;min-height:100vh}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:999;height:58px;border-bottom:1px solid var(--border);background:rgba(8,8,8,.92);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.nav-logo{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--gold2)}
+.nav-cta{background:var(--gold2);color:#000;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:700}
+.nav-cta:hover{opacity:.9}
+
+/* HERO */
+.hero{text-align:center;padding:80px 24px 64px;max-width:700px;margin:0 auto;position:relative}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid #FFD70025;border-radius:40px;padding:6px 16px;margin-bottom:28px}
+.hero-pill-dot{width:6px;height:6px;border-radius:50%;background:var(--gold2);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-pill-txt{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:.5px}
+.hero h1{font-size:clamp(36px,7vw,60px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:20px}
+.hero h1 span{color:var(--gold2)}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto 40px}
+.hero-cta{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:12px;padding:16px 36px;font-size:15px;font-weight:800;display:inline-block;margin-bottom:12px}
+.hero-cta:hover{opacity:.9}
+.hero-note{font-size:12px;color:var(--dim)}
+
+/* STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;max-width:700px;margin:0 auto 80px}
+.stat{padding:20px;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-val{font-family:var(--mono);font-size:24px;font-weight:700;margin-bottom:4px}
+.stat-lbl{font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+
+/* SECTION */
+.section{padding:64px 24px;max-width:700px;margin:0 auto}
+.section-tag{display:inline-block;background:var(--bg3);border:1px solid #FFD70020;border-radius:40px;padding:4px 14px;font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.section h2{font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:12px}
+.section h2 span{color:var(--gold2)}
+.section-sub{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:32px}
+
+/* HOW IT WORKS */
+.steps{display:flex;flex-direction:column;gap:14px}
+.step{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:22px;display:flex;gap:18px;align-items:flex-start}
+.step:hover{border-color:var(--border2)}
+.step-num{width:40px;height:40px;border-radius:50%;background:#FFD70012;border:1px solid #FFD70025;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--gold2);flex-shrink:0}
+.step-title{font-size:15px;font-weight:700;margin-bottom:5px}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* RESULTS */
+.results-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.result-card{background:var(--bg3);border-radius:var(--r);padding:14px;text-align:center}
+.result-card.win{border:1px solid #00C87A20}
+.result-card.loss{border:1px solid #FF453A20}
+.result-day{font-size:10px;color:var(--dim);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.result-asset{font-family:var(--mono);font-size:12px;font-weight:700;margin-bottom:8px}
+.result-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block}
+.result-pnl{font-size:12px;font-weight:700;margin-top:6px}
+.win .result-badge{background:#00C87A15;color:var(--green);border:1px solid #00C87A25}
+.loss .result-badge{background:#FF453A15;color:var(--red);border:1px solid #FF453A25}
+.results-summary{background:var(--bg3);border:1px solid #FFD70018;border-radius:var(--r);padding:18px;display:flex;justify-content:space-around}
+.rs-val{font-family:var(--mono);font-size:20px;font-weight:700;margin-bottom:3px}
+.rs-lbl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px}
+
+/* COURSES */
+.courses-section{display:flex;flex-direction:column;gap:14px}
+.course-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:22px;display:flex;gap:18px;align-items:flex-start;transition:border-color .2s}
+.course-item:hover{border-color:var(--border2)}
+.course-icon-box{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.course-name{font-size:15px;font-weight:700;margin-bottom:4px}
+.course-price{font-family:var(--mono);font-size:13px;color:var(--gold);margin-bottom:8px}
+.course-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px}
+.course-features{display:flex;flex-direction:column;gap:4px}
+.course-feature{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.course-feature::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+
+/* ABOUT */
+.about-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:28px;display:flex;gap:24px;align-items:flex-start}
+.about-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:30px;font-weight:700;color:#000;flex-shrink:0}
+.about-name{font-size:18px;font-weight:800;margin-bottom:3px}
+.about-role{font-size:12px;color:var(--gold);margin-bottom:14px}
+.about-bio{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:16px}
+.asset-tags{display:flex;gap:6px;flex-wrap:wrap}
+.asset-tag{background:#1A1500;border:1px solid #FFD70025;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;color:var(--gold)}
+
+/* TESTIMONIALS */
+.testimonials{display:flex;flex-direction:column;gap:12px}
+.tc{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:20px}
+.tc-stars{color:var(--gold2);font-size:11px;letter-spacing:2px;margin-bottom:10px}
+.tc-text{font-size:13px;color:#999;line-height:1.7;font-style:italic;margin-bottom:12px}
+.tc-name{font-size:12px;font-weight:700;color:var(--gold)}
+.tc-loc{font-size:11px;color:var(--dim)}
+
+/* LOGIN SECTION */
+.login-section{padding:64px 24px;max-width:700px;margin:0 auto}
+.login-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:600px){.login-grid{grid-template-columns:1fr}.results-grid{grid-template-columns:repeat(4,1fr)}.stats-bar{grid-template-columns:repeat(2,1fr)}}
+.login-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:28px}
+.login-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.field input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:13px 14px;font-size:14px;color:var(--white);font-family:var(--sans);outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--gold)}
+.btn-gold{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:800;color:#000;cursor:pointer;margin-top:4px;transition:opacity .2s}
+.btn-gold:hover{opacity:.9}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed}
+.err-box{background:#FF453A12;border:1px solid #FF453A35;border-radius:9px;padding:12px 14px;font-size:13px;color:var(--red);margin-bottom:14px;display:none;font-weight:500}
+.forgot{text-align:center;margin-top:14px;font-size:12px;color:var(--dim)}
+.forgot a{color:var(--gold)}
+.contact-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.contact-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.social-btn{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;transition:border-color .2s;width:100%}
+.social-btn:hover{border-color:var(--border2)}
+.social-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.social-name{font-size:13px;font-weight:600;color:var(--white);text-align:left}
+.social-handle{font-size:11px;color:var(--muted);text-align:left}
+.social-arr{margin-left:auto;font-size:14px;color:var(--dim)}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center}
+.footer-logo{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--gold2);margin-bottom:8px}
+.footer-slogan{font-size:12px;color:var(--dim);font-style:italic;letter-spacing:.5px}
+
+/* ── APP ─────────────────────────────────── */
+.app-nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.95);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;backdrop-filter:blur(12px)}
+.app-logo{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--gold2)}
+.app-tabs{display:flex;gap:3px}
+.app-tab{background:none;border:none;padding:7px 13px;font-size:12px;color:var(--dim);border-radius:8px;font-weight:500;transition:all .15s}
+.app-tab.on{background:var(--bg3);color:var(--white);border:1px solid var(--border)}
+.app-right{display:flex;align-items:center;gap:10px}
+.app-user{font-size:12px;color:var(--dim)}
+.btn-logout{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:11px;color:var(--dim);transition:all .2s}
+.btn-logout:hover{color:var(--red);border-color:#FF453A30}
+.app-inner{max-width:880px;margin:0 auto;padding:28px 20px}
+.app-head{margin-bottom:24px}
+.app-head h1{font-size:22px;font-weight:700;margin-bottom:3px}
+.app-head p{font-size:13px;color:var(--muted)}
+
+/* COURSE GRID */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:24px}
+.cc{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:20px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.cc:hover{border-color:var(--gold);transform:translateY(-2px)}
+.cc.locked{opacity:.4;cursor:not-allowed}
+.cc.locked:hover{transform:none;border-color:var(--border)}
+.cc-badge{position:absolute;top:14px;right:14px;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.5px}
+.cc-emoji{font-size:28px;margin-bottom:14px}
+.cc-name{font-size:15px;font-weight:700;margin-bottom:5px}
+.cc-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.cc-prog{height:3px;background:var(--bg4);border-radius:2px;margin-bottom:7px}
+.cc-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;transition:width .5s}
+.cc-prog-txt{display:flex;justify-content:space-between;font-size:10px;color:var(--dim)}
+.cc-prog-txt span:last-child{color:var(--gold)}
+
+/* PLAYER */
+.player{display:grid;grid-template-columns:250px 1fr;gap:16px;align-items:start}
+@media(max-width:640px){.player{grid-template-columns:1fr}.app-tabs{display:none}}
+.player-sidebar{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;position:sticky;top:72px}
+.ps-hdr{padding:14px 18px;border-bottom:1px solid var(--border)}
+.ps-course{font-size:13px;font-weight:700;margin-bottom:2px}
+.ps-prog{font-size:10px;color:var(--muted)}
+.mod{padding:13px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s}
+.mod:last-child{border-bottom:none}
+.mod:hover{background:var(--bg2)}
+.mod.on{background:var(--bg2);border-left:2px solid var(--gold)}
+.mod-n{font-family:var(--mono);font-size:10px;color:var(--dim);width:16px;flex-shrink:0}
+.mod-info{flex:1}
+.mod-title{font-size:12px;font-weight:500;margin-bottom:1px}
+.mod-dur{font-size:10px;color:var(--dim)}
+.mod-check{font-size:12px;flex-shrink:0}
+.video-panel{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.video-screen{background:#000;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative}
+.video-screen iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.video-placeholder{text-align:center;color:var(--dim)}
+.video-placeholder .vp-icon{font-size:40px;margin-bottom:12px}
+.video-placeholder .vp-txt{font-size:13px}
+.video-placeholder .vp-sub{font-size:11px;color:var(--border2);margin-top:4px}
+.vid-info{padding:18px 20px;border-bottom:1px solid var(--border)}
+.vid-title{font-size:17px;font-weight:700;margin-bottom:5px}
+.vid-meta{font-size:11px;color:var(--muted)}
+.vid-actions{padding:14px 20px;display:flex;gap:10px;border-bottom:1px solid var(--border)}
+.btn-done{background:var(--green);border:none;border-radius:9px;padding:10px 20px;font-size:12px;font-weight:700;color:#000;transition:opacity .2s}
+.btn-done:hover{opacity:.85}
+.btn-done:disabled{background:var(--bg4);color:var(--dim);cursor:not-allowed}
+.btn-next{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:10px 18px;font-size:12px;font-weight:600;color:var(--white);transition:all .2s}
+.btn-next:hover{border-color:var(--gold);color:var(--gold)}
+.vid-notes{padding:16px 20px}
+.vid-notes-lbl{font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.vid-notes-txt{font-size:13px;color:var(--muted);line-height:1.8}
+.back-btn{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:7px 16px;font-size:12px;color:var(--muted);margin-bottom:16px;transition:color .2s}
+.back-btn:hover{color:var(--white)}
+
+/* LEADERBOARD */
+.lb{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.lb-row{display:grid;grid-template-columns:44px 1fr 110px 70px 90px;padding:13px 18px;border-bottom:1px solid var(--border);align-items:center;gap:12px;font-size:13px;transition:background .1s}
+.lb-row:hover{background:var(--bg2)}
+.lb-row:last-child{border-bottom:none}
+.lb-row.hdr{font-size:10px;color:var(--dim);letter-spacing:.8px;text-transform:uppercase;padding:10px 18px;background:none}
+.lb-row.hdr:hover{background:none}
+.lb-row.me{background:#C9A84C06;border-left:2px solid var(--gold)}
+.lb-rank{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--dim)}
+.lb-name{font-weight:500}
+.lb-sub{font-size:10px;color:var(--dim);margin-top:1px}
+.lb-prog-w{display:flex;align-items:center;gap:7px}
+.lb-prog-bar{flex:1;height:3px;background:var(--bg4);border-radius:2px}
+.lb-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px}
+.lb-prog-pct{font-family:var(--mono);font-size:10px;color:var(--gold);width:28px;text-align:right}
+.lb-mods{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center}
+.lb-stage{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;text-align:center}
+
+/* HISTORY */
+.hist-item{background:var(--bg3);border:1px solid var(--border);border-radius:11px;padding:13px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;transition:border-color .15s}
+.hist-item:hover{border-color:var(--border2)}
+.hist-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.hist-txt{flex:1;font-size:13px}
+.hist-time{font-size:11px;color:var(--dim)}
+
+/* EMPTY */
+.empty{text-align:center;padding:52px 20px;color:var(--dim)}
+.empty-icon{font-size:40px;margin-bottom:14px}
+.empty-title{font-size:15px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.empty-sub{font-size:13px;line-height:1.6}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 20px;font-size:13px;opacity:0;transition:all .3s;z-index:9999;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── PAYMENT MODAL ── */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:9000;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:28px;width:100%;max-width:440px;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--muted)}
+.modal-close:hover{color:var(--white)}
+.modal-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.pay-tabs{display:flex;gap:6px;margin-bottom:20px}
+.pay-tab{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:10px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;font-family:var(--sans);transition:all .2s;text-align:center}
+.pay-tab.on{background:#1A1500;border-color:#FFD70030;color:var(--gold2)}
+.pay-section{display:none}
+.pay-section.on{display:block}
+.pay-amount{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;margin-bottom:16px}
+.pay-amount-val{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--gold2)}
+.pay-amount-lbl{font-size:11px;color:var(--muted);margin-top:3px}
+.pay-method{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color .2s;display:flex;align-items:center;gap:12px}
+.pay-method:hover{border-color:var(--border2)}
+.pay-method.selected{border-color:var(--gold);background:#1A1500}
+.pay-method-icon{font-size:20px;flex-shrink:0}
+.pay-method-name{font-size:13px;font-weight:600;color:var(--white)}
+.pay-method-sub{font-size:11px;color:var(--muted)}
+.pay-method-radio{margin-left:auto;width:16px;height:16px;border-radius:50%;border:2px solid var(--dim);flex-shrink:0}
+.pay-method.selected .pay-method-radio{background:var(--gold2);border-color:var(--gold2)}
+.pay-info{background:#1A1500;border:1px solid #FFD70020;border-radius:9px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6;margin:14px 0}
+.pay-info strong{color:var(--white)}
+.btn-pay{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:800;color:#000;cursor:pointer;font-family:var(--sans);margin-top:4px}
+.btn-pay:hover{opacity:.9}
+.btn-pay:disabled{opacity:.5;cursor:not-allowed}
+.pay-success{text-align:center;padding:20px 0}
+.pay-success-icon{font-size:48px;margin-bottom:16px}
+.pay-success-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.pay-success-sub{font-size:13px;color:var(--muted);line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LANDING                                  -->
+<!-- ════════════════════════════════════════ -->
+<div id="landing">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo">14⚡ Academy</div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <a href="https://app.14trade.com" style="font-size:12px;color:var(--muted);padding:6px 10px;border-radius:7px;text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">App Signaux</a>
+      <a href="https://discord.gg/vkef5BWxs" target="_blank" style="font-size:12px;color:var(--muted);padding:6px 10px;border-radius:7px;text-decoration:none" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">Discord</a>
+      <a href="https://14trades-courses.vercel.app/competition.html" style="display:flex;align-items:center;gap:6px;background:#FFD70012;color:var(--gold2);border:1px solid #FFD70025;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;font-family:var(--sans);text-decoration:none">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--gold2);display:inline-block;animation:pulse 2s infinite;flex-shrink:0"></span>
+        🏆 Challenge
+      </a>
+      <button onclick="scrollLogin()" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans)">Se connecter →</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div style="background:radial-gradient(ellipse at 50% -10%,#1A1400 0%,transparent 60%)">
+    <div class="hero">
+      <div class="hero-pill">
+        <div class="hero-pill-dot"></div>
+        <span class="hero-pill-txt">14 TRADES ACADEMY · MÉTHODE OFFICIELLE</span>
+      </div>
+      <h1>La méthode qui transforme<br><span>$100 en $1,000,000.</span></h1>
+      <p class="hero-sub">14 doublements. Pas de magie — des mathématiques et de la discipline. Apprenez le timing exact, la structure du marché, l'entrée précise.</p>
+      <button class="hero-cta" onclick="scrollLogin()">Accéder à l'Academy →</button>
+      <div class="hero-note">Déjà inscrit ? <a href="#" onclick="scrollLogin();return false" style="color:var(--gold)">Se connecter ici</a></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-bar" style="margin:0 24px 80px;max-width:700px;margin-left:auto;margin-right:auto">
+      <div class="stat"><div class="stat-val" style="color:var(--green)">83%</div><div class="stat-lbl">Win Rate</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--gold2)">150+</div><div class="stat-lbl">Étudiants actifs</div></div>
+      <div class="stat"><div class="stat-val">2 ans</div><div class="stat-lbl">D'expérience</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--gold2)">×14</div><div class="stat-lbl">Doublements</div></div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section" style="border-top:1px solid var(--border)">
+    <div class="section-tag">Comment ça marche</div>
+    <h2>Simple. Répétable. <span>Efficace.</span></h2>
+    <p class="section-sub">Un système en 3 étapes — pas de complexité inutile, pas d'analyse pendant des heures. Je m'en occupe, vous exécutez.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Choisissez votre formation</div>
+          <div class="step-desc">Day Trading ($300), Swing Trading ($500), ou Combo ($700). Payez via Wave, Orange Money ou Crypto. Accès immédiat après confirmation.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Apprenez le timing et la structure</div>
+          <div class="step-desc">Des vidéos privées sur le bon moment d'entrer sur le marché. Pas d'indicateurs complexes — juste le timing, la structure, et l'entrée exacte. Un système simple que vous pouvez répéter chaque jour ou chaque semaine.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Appliquez et doublez</div>
+          <div class="step-desc">Abonnez-vous aux signaux en temps réel ($100/mois) ou rejoignez le 14 Trades Challenge Elite ($200/mois) pour copier mon entrée exacte. Suivez le Road to $1M — 14 doublements depuis $100.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="section" style="border-top:1px solid var(--border)">
+    <div class="section-tag">Track Record</div>
+    <h2>Des résultats <span>réels.</span></h2>
+    <p class="section-sub">Transparence totale — chaque signal, chaque résultat. Les pertes aussi. C'est pour ça que vous pouvez nous faire confiance.</p>
+    <div class="results-grid">
+      <div class="result-card win">
+        <div class="result-day">Lundi</div>
+        <div class="result-asset">GOLD · BUY</div>
+        <span class="result-badge">TP2 ✓</span>
+        <div class="result-pnl" style="color:var(--green)">+$97 / 0.01 lot</div>
+      </div>
+      <div class="result-card win">
+        <div class="result-day">Mardi</div>
+        <div class="result-asset">GOLD · SELL</div>
+        <span class="result-badge">TP3 ✓</span>
+        <div class="result-pnl" style="color:var(--green)">+$166 / 0.01 lot</div>
+      </div>
+      <div class="result-card loss">
+        <div class="result-day">Mercredi</div>
+        <div class="result-asset">GOLD · BUY</div>
+        <span class="result-badge">SL</span>
+        <div class="result-pnl" style="color:var(--red)">-$10 / 0.01 lot</div>
+      </div>
+      <div class="result-card win">
+        <div class="result-day">Jeudi</div>
+        <div class="result-asset">GOLD · SELL</div>
+        <span class="result-badge">TP2 ✓</span>
+        <div class="result-pnl" style="color:var(--green)">+$97 / 0.01 lot</div>
+      </div>
+    </div>
+    <div class="results-summary">
+      <div style="text-align:center"><div class="rs-val" style="color:var(--green)">87%</div><div class="rs-lbl">Win Rate</div></div>
+      <div style="text-align:center"><div class="rs-val" style="color:var(--gold2)">+$350</div><div class="rs-lbl">Net cette semaine</div></div>
+      <div style="text-align:center"><div class="rs-val">1:5</div><div class="rs-lbl">Ratio R:R</div></div>
+      <div style="text-align:center"><div class="rs-val" style="color:var(--gold2)">3/4</div><div class="rs-lbl">TP atteints</div></div>
+    </div>
+  </div>
+
+  <!-- COURSES -->
+  <div class="section" style="border-top:1px solid var(--border)">
+    <div class="section-tag">Formations</div>
+    <h2>Choisissez votre <span>niveau.</span></h2>
+    <p class="section-sub">Chaque formation comprend un mois de signaux en temps réel offert. Commencez par le Day Trading si vous débutez.</p>
+    <div class="courses-section">
+      <div class="course-item">
+        <div class="course-icon-box" style="background:#4A9EFF15">📈</div>
+        <div>
+          <div class="course-name">Day Trading</div>
+          <div class="course-price">$300 · une fois · + 1 mois Alert offert</div>
+          <div class="course-desc">Le moment exact où le marché offre son plus grand mouvement du jour. Vous entrez une fois — vous attendez.</div>
+          <div class="course-features">
+            <div class="course-feature">Le timing que personne ne vous a montré</div>
+            <div class="course-feature">Un setup par jour — pas plus</div>
+            <div class="course-feature">Applicable dès le lendemain</div>
+          </div>
+          <button onclick="openPayment('day')" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:800;color:#000;cursor:pointer;font-family:var(--sans);margin-top:14px">Accéder — $300 →</button>
+        </div>
+      </div>
+      <div class="course-item">
+        <div class="course-icon-box" style="background:#BF5AF215">📊</div>
+        <div>
+          <div class="course-name">Swing Trading</div>
+          <div class="course-price">$500 · une fois · + 1 mois Alert offert</div>
+          <div class="course-desc">Un trade par semaine. Le bon jour. Le grand mouvement. Moins de temps devant l'écran — plus de points capturés.</div>
+          <div class="course-features">
+            <div class="course-feature">Le jour exact de la semaine pour entrer</div>
+            <div class="course-feature">100 à 500+ points sur Gold</div>
+            <div class="course-feature">La patience comme avantage</div>
+          </div>
+          <button onclick="openPayment('swing')" style="width:100%;background:linear-gradient(135deg,#BF5AF2,#9B4FCC);border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:800;color:#fff;cursor:pointer;font-family:var(--sans);margin-top:14px">Accéder — $500 →</button>
+        </div>
+      </div>
+      <div class="course-item" style="border-color:#FFD70018">
+        <div class="course-icon-box" style="background:#FFD70015">🔥</div>
+        <div>
+          <div class="course-name">Combo</div>
+          <div class="course-price">$700 · une fois · Limité 20 étudiants · + 2 mois Alert offerts</div>
+          <div class="course-desc">La méthode complète. Day + Swing. Vous ne manquez plus aucun grand mouvement — ni du jour, ni de la semaine.</div>
+          <div class="course-features">
+            <div class="course-feature">Accès total — les deux formations</div>
+            <div class="course-feature">Analyses exclusives chaque semaine</div>
+            <div class="course-feature">20 places. Pas plus.</div>
+          </div>
+          <button onclick="openPayment('combo')" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:800;color:#000;cursor:pointer;font-family:var(--sans);margin-top:14px">Accéder — $700 →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section" style="border-top:1px solid var(--border)">
+    <div class="section-tag">Le fondateur</div>
+    <h2>Sadikh Sarr · <span>14 Trades</span></h2>
+    <p class="section-sub">Trader depuis 2 ans depuis Dakar, Sénégal. La méthode vient de l'expérience réelle sur les marchés — pas d'une formation théorique.</p>
+    <div class="about-card">
+      <div class="about-avatar">S</div>
+      <div>
+        <div class="about-name">Sadikh Sarr</div>
+        <div class="about-role">Fondateur · 14 Trades · Dakar, Sénégal</div>
+        <div class="about-bio">Pendant 2 ans j'ai développé une méthode basée sur une seule idée : <strong style="color:var(--white)">le timing est tout</strong>. Pas besoin d'analyser 4 heures par jour. Il faut juste savoir quand le marché offre une vraie opportunité — et l'exécuter avec discipline.<br><br>14 Trades, c'est pas un signal service comme les autres. C'est une philosophie. 14 doublements depuis $100. Les mathématiques font le reste.</div>
+        <div class="asset-tags">
+          <span class="asset-tag">Gold XAU/USD</span>
+          <span class="asset-tag">Silver XAG/USD</span>
+          <span class="asset-tag">BTC/USD</span>
+          <span class="asset-tag">Nasdaq</span>
+          <span class="asset-tag">US30</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="section" style="border-top:1px solid var(--border)">
+    <div class="section-tag">Témoignages</div>
+    <h2>Ce que disent <span>les traders.</span></h2>
+    <p class="section-sub">Des résultats réels de membres réels. Pas des screenshots générés — des histoires vécues.</p>
+    <div class="testimonials">
+      <div class="tc">
+        <div class="tc-stars">★★★★★</div>
+        <div class="tc-text">"Meilleure expérience de trading de ma vie. En moins de 24h j'ai vu des profits. Le système de Sadikh est clair, simple, et ça fonctionne vraiment. Je recommande à 100%."</div>
+        <div><span class="tc-name">Mamadou D.</span> <span class="tc-loc">· Dakar, Sénégal</span></div>
+      </div>
+      <div class="tc">
+        <div class="tc-stars">★★★★★</div>
+        <div class="tc-text">"Des règles claires, zéro stress. J'ai doublé mon compte en une semaine en suivant exactement ce que Sadikh enseigne. Je ne tradais jamais avec discipline avant — maintenant je comprends pourquoi c'est essentiel."</div>
+        <div><span class="tc-name">Fatou N.</span> <span class="tc-loc">· Thiès, Sénégal</span></div>
+      </div>
+      <div class="tc">
+        <div class="tc-stars">★★★★★</div>
+        <div class="tc-text">"J'avais essayé 6 stratégies différentes sur YouTube sans résultats. Avec 14 Trades j'ai enfin un système que je peux répéter. Le timing que Sadikh enseigne m'a ouvert les yeux sur comment les marchés fonctionnent vraiment."</div>
+        <div><span class="tc-name">Cheikh S.</span> <span class="tc-loc">· Saint-Louis, Sénégal</span></div>
+      </div>
+    </div>
+  </div>
+
+  
+    <!-- COMPETITION SECTION -->
+    <div class="section" style="border-top:1px solid var(--border)">
+      <div class="section-tag">Challenge Cup</div>
+      <h2>Compétition mensuelle <span>gratuite</span></h2>
+      <p class="section-sub">Tradez sur HFM Cent account, grimpez dans le classement, gagnez des formations et des abonnements gratuits. Ouvert à tous — sans frais d'entrée.</p>
+
+      <div style="background:linear-gradient(135deg,#1A1400,#0F0D00);border:1px solid #FFD70025;border-radius:16px;padding:28px;display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div style="font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--gold2);animation:pulse 2s infinite"></div>
+            COMPÉTITION EN COURS
+          </div>
+          <div style="font-size:20px;font-weight:800;margin-bottom:6px">14 Trades Challenge Cup</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6">HFM Cent account · Classement par % de gain<br>N'importe quelle balance de départ · Récompenses exclusives</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <a href="https://14trades-courses.vercel.app/competition.html" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:10px;padding:12px 24px;font-size:13px;font-weight:800;font-family:var(--sans);text-decoration:none;display:inline-block">Voir la compétition →</a>
+            <a href="https://www.hfm.com/sv/en/?refid=30488301" target="_blank" style="background:transparent;color:var(--gold);border:1px solid #FFD70030;border-radius:10px;padding:12px 20px;font-size:13px;font-weight:600;font-family:var(--sans);text-decoration:none;display:inline-block">Ouvrir compte HFM →</a>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;min-width:160px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="font-size:20px">🥇</div>
+            <div>
+              <div style="font-size:12px;font-weight:600">1ère place</div>
+              <div style="font-size:11px;color:var(--muted)">Cours Day Trading + 1 mois Alert</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="font-size:20px">🥈</div>
+            <div>
+              <div style="font-size:12px;font-weight:600">2ème place</div>
+              <div style="font-size:11px;color:var(--muted)">1 mois Signal Alert gratuit</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="font-size:20px">🥉</div>
+            <div>
+              <div style="font-size:12px;font-weight:600">3ème place</div>
+              <div style="font-size:11px;color:var(--muted)">50% de réduction</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN SECTION -->
+  <div class="login-section" id="login-anchor" style="border-top:1px solid var(--border)">
+    <div class="section-tag" style="margin-bottom:16px">Accès</div>
+    <h2 style="font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-1px;margin-bottom:24px">Connexion <span style="color:var(--gold2)">& Contact</span></h2>
+    <div class="login-grid">
+
+      <!-- LOGIN FORM -->
+      <div class="login-card">
+        <div class="login-title">Connexion</div>
+        <div class="login-sub">Accédez à vos cours 14 Trades</div>
+        <div class="err-box" id="err"></div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="inp-email" placeholder="votre@email.com">
+        </div>
+        <div class="field">
+          <label>Mot de passe</label>
+          <input type="password" id="inp-pass" placeholder="••••••••">
+        </div>
+        <button class="btn-gold" id="login-btn" onclick="doLogin()">Se connecter →</button>
+        <div class="forgot">Mot de passe oublié ? <a href="https://wa.me/221788255099" target="_blank">WhatsApp →</a></div>
+      </div>
+
+      <!-- CONTACT -->
+      <div>
+        <div class="contact-title">Pas encore inscrit ?</div>
+        <div class="contact-sub">Contactez Sadikh pour accéder aux formations</div>
+        <a href="https://wa.me/221788255099" target="_blank">
+          <div class="social-btn" onmouseover="this.style.borderColor='#25D36640'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="social-ico" style="background:#25D36615">💬</div>
+            <div><div class="social-name">WhatsApp</div><div class="social-handle">+221 78 825 5099 · Réponse rapide</div></div>
+            <div class="social-arr">→</div>
+          </div>
+        </a>
+        <a href="https://t.me/+dmul6Q--Apc3YzQ0" target="_blank">
+          <div class="social-btn" onmouseover="this.style.borderColor='#229ED940'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="social-ico" style="background:#229ED915">✈️</div>
+            <div><div class="social-name">Telegram</div><div class="social-handle">Communauté 14 Trades</div></div>
+            <div class="social-arr">→</div>
+          </div>
+        </a>
+        <a href="https://discord.gg/vkef5BWxs" target="_blank">
+          <div class="social-btn" onmouseover="this.style.borderColor='#5865F240'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="social-ico" style="background:#5865F215">🎮</div>
+            <div><div class="social-name">Discord</div><div class="social-handle">14 Trades · Serveur officiel</div></div>
+            <div class="social-arr">→</div>
+          </div>
+        </a>
+        <a href="https://app.14trade.com" target="_blank">
+          <div class="social-btn" onmouseover="this.style.borderColor='#C9A84C40'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="social-ico" style="background:#C9A84C15;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gold2)">14⚡</div>
+            <div><div class="social-name">App Signaux</div><div class="social-handle">app.14trade.com · Signaux live</div></div>
+            <div class="social-arr">→</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-logo">14⚡</div>
+    <div class="footer-slogan">Moi je fais le travail. Toi tu exécutes. ⚡</div>
+    <div style="font-size:11px;color:var(--dim);margin-top:8px">© 2026 14 Trades · Sadikh Sarr · Dakar, Sénégal</div>
+  </div>
+
+</div><!-- end landing -->
+
+<!-- ════════════════════════════════════════ -->
+<!-- APP                                      -->
+<!-- ════════════════════════════════════════ -->
+<div id="app">
+
+  <nav class="app-nav">
+    <div class="app-logo">14⚡ Academy</div>
+    <div class="app-tabs">
+      <button class="app-tab on" onclick="showTab('dash',this)">Mes cours</button>
+      <button class="app-tab" onclick="showTab('lb',this)">Classement</button>
+      <button class="app-tab" onclick="showTab('hist',this)">Historique</button>
+      <button class="app-tab" onclick="showTab('comp',this);loadCompetition()">🏆 Challenge</button>
+    </div>
+    <div class="app-right">
+      <span class="app-user" id="app-user"></span>
+      <button class="btn-logout" onclick="doLogout()">Déconnexion</button>
+    </div>
+  </nav>
+
+  <!-- DASHBOARD -->
+  <div id="tab-dash" class="app-inner">
+    <div class="app-head">
+      <h1 id="greeting">Bonjour 👋</h1>
+      <p>Continuez là où vous vous êtes arrêté.</p>
+    </div>
+    <div class="cg" id="cg"></div>
+    <div style="text-align:center;font-size:11px;color:var(--dim);font-style:italic;padding:8px 0">Moi je fais le travail. Toi tu exécutes. ⚡</div>
+  </div>
+
+  <!-- PLAYER -->
+  <div id="tab-player" class="app-inner" style="display:none">
+    <button class="back-btn" onclick="showTab('dash',null)">← Retour aux cours</button>
+    <div class="player">
+      <div class="player-sidebar">
+        <div class="ps-hdr">
+          <div class="ps-course" id="ps-course"></div>
+          <div class="ps-prog" id="ps-prog"></div>
+        </div>
+        <div id="mod-list"></div>
+      </div>
+      <div class="video-panel">
+        <div class="video-screen" id="vid-screen">
+          <div class="video-placeholder">
+            <div class="vp-icon">▶️</div>
+            <div class="vp-txt">Sélectionnez un module</div>
+          </div>
+        </div>
+        <div class="vid-info">
+          <div class="vid-title" id="vid-title">Sélectionnez un module</div>
+          <div class="vid-meta" id="vid-meta"></div>
+        </div>
+        <div class="vid-actions">
+          <button class="btn-done" id="btn-done" onclick="markDone()" disabled>✓ Marquer comme terminé</button>
+          <button class="btn-next" id="btn-next" onclick="nextMod()" style="display:none">Module suivant →</button>
+        </div>
+        <div class="vid-notes" id="vid-notes" style="display:none">
+          <div class="vid-notes-lbl">Notes du module</div>
+          <div class="vid-notes-txt" id="vid-notes-txt"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="tab-lb" class="app-inner" style="display:none">
+    <div class="app-head"><h1>🏆 Classement</h1><p>Les étudiants les plus avancés dans la méthode 14 Trades.</p></div>
+    <div class="lb">
+      <div class="lb-row hdr"><div>Rang</div><div>Étudiant</div><div>Progression</div><div>Modules</div><div>Stage</div></div>
+      <div id="lb-body"></div>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="tab-hist" class="app-inner" style="display:none">
+    <div class="app-head"><h1>📋 Mon historique</h1><p>Toutes vos activités d'apprentissage.</p></div>
+    <div id="hist-list"></div>
+  </div>
+
+</div>
+
+  <!-- COMPETITION TAB -->
+  <div id="tab-comp" class="app-inner" style="display:none">
+    <div class="app-head">
+      <h1>🏆 Challenge Cup</h1>
+      <p>Compétition mensuelle — HFM Cent account uniquement</p>
+    </div>
+    <div id="comp-active" style="display:none">
+      <div style="background:linear-gradient(135deg,#1A1400,#0F0D00);border:1px solid #FFD70025;border-radius:16px;padding:24px;margin-bottom:20px">
+        <div style="font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">Compétition active</div>
+        <div style="font-size:22px;font-weight:800;color:var(--white);margin-bottom:6px" id="comp-name">14 Trades Challenge Cup</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:20px" id="comp-period"></div>
+        <div style="background:#00000050;border:1px solid #FFD70015;border-radius:10px;padding:14px;text-align:center;margin-bottom:16px">
+          <div style="font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Se termine dans</div>
+          <div id="comp-countdown" style="font-family:var(--mono);font-size:24px;font-weight:700;color:var(--gold2)">--:--:--</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
+          <div style="background:#00000040;border-radius:8px;padding:12px;text-align:center">
+            <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--gold2)" id="comp-participants">0</div>
+            <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;margin-top:3px">Participants</div>
+          </div>
+          <div style="background:#00000040;border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:18px;font-weight:700;color:var(--white)">HFM</div>
+            <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;margin-top:3px">Broker requis</div>
+          </div>
+          <div style="background:#00000040;border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:18px;font-weight:700;color:var(--green)">%</div>
+            <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;margin-top:3px">Gain classement</div>
+          </div>
+        </div>
+        <button onclick="showJoinForm()" id="btn-join-comp" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:800;color:#000;cursor:pointer;font-family:var(--sans)">Rejoindre la competition →</button>
+      </div>
+      <!-- JOIN FORM -->
+      <div id="join-form" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:16px">Inscription</div>
+        <div class="field"><label>Votre nom</label><input type="text" id="join-name" placeholder="Prenom + Nom"></div>
+        <div class="field"><label>Email</label><input type="email" id="join-email" placeholder="votre@email.com"></div>
+        <div class="field"><label>Numero de compte HFM</label><input type="text" id="join-hfm" placeholder="ex: 12345678"></div>
+        <div class="field"><label>Balance de depart (en cents)</label><input type="number" id="join-balance" placeholder="ex: 1000 = $10"></div>
+        <div style="background:#1A1500;border:1px solid #FFD70020;border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;color:var(--muted);line-height:1.6">Compte HFM Cent uniquement. Envoyez screenshot balance de depart sur WhatsApp : <strong style="color:var(--white)">+221788255099</strong>. Inscription validee dans les 24h.</div>
+        <button onclick="joinCompetition()" style="width:100%;background:var(--green);border:none;border-radius:10px;padding:13px;font-size:13px;font-weight:700;color:#000;cursor:pointer;font-family:var(--sans);margin-bottom:8px">Confirmer mon inscription</button>
+        <button onclick="document.getElementById('join-form').style.display='none';document.getElementById('btn-join-comp').style.display='block'" style="width:100%;background:none;border:none;padding:10px;font-size:13px;color:var(--muted);cursor:pointer;font-family:var(--sans)">Annuler</button>
+      </div>
+      <!-- LEADERBOARD -->
+      <div style="font-size:16px;font-weight:700;margin-bottom:12px">Classement</div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px">
+        <div style="display:grid;grid-template-columns:44px 1fr 80px 70px;padding:10px 16px;font-size:10px;color:var(--dim);letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid var(--border)">
+          <div>Rang</div><div>Trader</div><div>Gain</div><div>Trades</div>
+        </div>
+        <div id="comp-leaderboard"></div>
+      </div>
+      <!-- REWARDS -->
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:14px">Recompenses</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">🥇</div><div><div style="font-size:13px;font-weight:600">1ere place</div><div style="font-size:12px;color:var(--muted)">Cours Day Trading offert ($300) + 1 mois Alert gratuit</div></div></div>
+          <div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">🥈</div><div><div style="font-size:13px;font-weight:600">2eme place</div><div style="font-size:12px;color:var(--muted)">1 mois Signal Alert gratuit</div></div></div>
+          <div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">🥉</div><div><div style="font-size:13px;font-weight:600">3eme place</div><div style="font-size:12px;color:var(--muted)">50% de reduction ce mois</div></div></div>
+        </div>
+      </div>
+      <!-- RULES -->
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:14px">Regles</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)">
+          <div style="display:flex;gap:8px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span>Compte HFM Cent uniquement</div>
+          <div style="display:flex;gap:8px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span>N'importe quelle balance de depart</div>
+          <div style="display:flex;gap:8px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span>Classement par % de gain uniquement</div>
+          <div style="display:flex;gap:8px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span>Screenshot balance depart + finale obligatoire</div>
+          <div style="display:flex;gap:8px"><span style="color:var(--red);font-weight:700;flex-shrink:0">✗</span>Autres brokers non eligibles</div>
+          <div style="display:flex;gap:8px"><span style="color:var(--red);font-weight:700;flex-shrink:0">✗</span>Comptes demo non eligibles</div>
+        </div>
+        <a href="https://www.hfm.com/sv/en/?refid=30488301" target="_blank" style="display:block;width:100%;background:#FFD70015;border:1px solid #FFD70025;border-radius:10px;padding:12px;font-size:13px;font-weight:700;color:var(--gold2);text-align:center;text-decoration:none;margin-top:16px">Ouvrir un compte HFM Cent →</a>
+      </div>
+    </div>
+    <div id="comp-none">
+      <div class="empty"><div class="empty-icon">🏆</div><div class="empty-title">Prochaine competition bientot</div><div class="empty-sub">La prochaine Challenge Cup sera annoncee sur Discord et dans l'app.</div></div>
+    </div>
+  </div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SERVER = 'https://14trades-server-production.up.railway.app';
+
+const COURSES = {
+  day:   {id:'day',   name:'Day Trading',   icon:'📈', desc:'Le bon timing. La structure du jour. L\'entrée exacte.', color:'#4A9EFF', badge:'DAY'},
+  swing: {id:'swing', name:'Swing Trading', icon:'📊', desc:'Le bon jour de la semaine. Le grand mouvement.',        color:'#BF5AF2', badge:'SWING'},
+  combo: {id:'combo', name:'Combo',         icon:'🔥', desc:'Day + Swing ensemble. Ne manquez plus rien.',           color:'#FFD700', badge:'COMBO'}
+};
+
+const DEFAULT_MODS = {
+  day:  [{id:'day-1',title:'Le Timing',dur:'~15 min',notes:'London Open et NY Open sont vos deux fenêtres. Apprenez exactement quand entrer et pourquoi cette heure change tout.'},{id:'day-2',title:'La Structure',dur:'~15 min',notes:'Lire le marché Gold avant de prendre position. Identifier la direction du jour en moins de 10 minutes.'},{id:'day-3',title:'L\'Entrée',dur:'~15 min',notes:'Placement précis de l\'entrée, du SL et des TP1/TP2/TP3. Tout est défini avant d\'entrer — jamais après.'}],
+  swing:[{id:'sw-1',title:'Le Timing Hebdo',dur:'~15 min',notes:'Quel jour de la semaine trader. Comment identifier le début d\'un grand mouvement. Les cycles Gold sur D1.'},{id:'sw-2',title:'La Structure',dur:'~15 min',notes:'Lire D1 et H4. Higher Highs, Higher Lows. Identifier les zones clés de la semaine avant qu\'elles se forment.'},{id:'sw-3',title:'L\'Entrée Swing',dur:'~15 min',notes:'Setup en 5 étapes : D1 → H4 → H1. Entrée sur confirmation. Gestion d\'une position sur 3 à 7 jours.'}],
+  combo:[{id:'co-1',title:'Stratégie Combo',dur:'~20 min',notes:'Comment combiner day trading et swing. Quand utiliser l\'un ou l\'autre selon le marché. Le flow de la semaine complète.'},{id:'co-2',title:'Analyses Exclusives',dur:'~20 min',notes:'Analyses de marchés réels. Gold, BTC, Nasdaq. Comment lire une semaine complète et planifier vos trades à l\'avance.'}]
+};
+
+let user = null, progress = {}, history = [], mods = JSON.parse(JSON.stringify(DEFAULT_MODS)), activeCourse = null, activeMod = 0;
+
+// ── HELPERS ──────────────────────────────────────────────────────
+function scrollLogin() { document.getElementById('login-anchor').scrollIntoView({behavior:'smooth'}); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+function showErr(msg) {
+  const el = document.getElementById('err');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+// ── AUTH ─────────────────────────────────────────────────────────
+async function doLogin() {
+  const email = document.getElementById('inp-email').value.trim();
+  const pass  = document.getElementById('inp-pass').value.trim();
+  const btn   = document.getElementById('login-btn');
+  document.getElementById('err').style.display = 'none';
+
+  if (!email || !pass) { showErr('Veuillez remplir tous les champs.'); return; }
+
+  btn.disabled = true; btn.textContent = 'Connexion...';
+
+  // Demo mode
+  if (email === 'demo@14trade.com' && pass === 'demo123') {
+    user = {name:'Demo Student', email, courses:['day','swing','combo']};
+    localStorage.setItem('14t_cu', JSON.stringify({token:'demo', student:user}));
+    await fetchVideos();
+    openApp(); return;
+  }
+
+  try {
+    const r = await fetch(SERVER+'/api/courses/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email, password:pass})
+    });
+    const d = await r.json();
+    if (d.ok) {
+      user = d.student;
+      localStorage.setItem('14t_cu', JSON.stringify({token:d.token, student:d.student}));
+      await Promise.all([fetchProgress(d.token), fetchVideos()]);
+      // Check redirect param
+      const rp = new URLSearchParams(window.location.search).get('redirect');
+      if (rp === 'competition') { window.location.href = '/competition.html?joined=1'; return; }
+      openApp();
+    } else {
+      showErr(d.error || 'Email ou mot de passe incorrect.');
+    }
+  } catch(e) {
+    showErr('Erreur de connexion. Vérifiez votre connexion internet.');
+  }
+  btn.disabled = false; btn.textContent = 'Se connecter →';
+}
+
+function doLogout() {
+  localStorage.removeItem('14t_cu');
+  user = null; progress = {}; history = [];
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('landing').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+// ── DATA FETCHING ─────────────────────────────────────────────────
+async function fetchProgress(token) {
+  try {
+    const r = await fetch(SERVER+'/api/courses/progress', {headers:{'x-course-token':token}});
+    const d = await r.json();
+    if (d.ok) { progress = d.progress||{}; history = d.history||[]; }
+  } catch(e) {}
+}
+
+async function fetchVideos() {
+  try {
+    const r = await fetch(SERVER+'/api/courses/videos');
+    const d = await r.json();
+    if (d.ok && d.videos) {
+      Object.entries(d.videos).forEach(([cid, ms]) => {
+        if (ms.length) mods[cid] = ms.map(m => ({id:m.module_id, title:m.title, dur:m.duration||'~15 min', notes:m.notes||'', youtube:m.youtube_url||''}));
+      });
+    }
+  } catch(e) {}
+}
+
+// ── OPEN APP ──────────────────────────────────────────────────────
+function openApp() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.scrollTo(0,0);
+  const name = (user.name||user.email||'').split(' ')[0];
+  document.getElementById('greeting').textContent = 'Bonjour '+name+' 👋';
+  document.getElementById('app-user').textContent = name || user.email;
+  renderDash(); renderLb(); renderHist();
+}
+
+// ── TABS ──────────────────────────────────────────────────────────
+function showTab(tab, btn) {
+  ['dash','player','lb','hist'].forEach(t => document.getElementById('tab-'+t).style.display = t===tab?'block':'none');
+  if (btn) { document.querySelectorAll('.app-tab').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); }
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────
+function renderDash() {
+  const enrolled = user.courses||[];
+  document.getElementById('cg').innerHTML = Object.values(COURSES).map(c => {
+    const ms    = mods[c.id]||[];
+    const done  = ms.filter(m=>progress[m.id]).length;
+    const total = ms.length;
+    const pct   = total ? Math.round(done/total*100) : 0;
+    const isIn  = enrolled.includes(c.id);
+    return `<div class="cc${isIn?'':' locked'}" onclick="${isIn?`openCourse('${c.id}')`:''}" >
+      <span class="cc-badge" style="background:${c.color}18;color:${c.color};border:1px solid ${c.color}30">${isIn?c.badge:'🔒'}</span>
+      <div class="cc-emoji">${c.icon}</div>
+      <div class="cc-name">${c.name}</div>
+      <div class="cc-desc">${c.desc}</div>
+      ${isIn?`
+      <div class="cc-prog"><div class="cc-prog-fill" style="width:${pct}%"></div></div>
+      <div class="cc-prog-txt"><span>${done}/${total} modules</span><span>${pct}%</span></div>`
+      :`<div style="font-size:11px;color:var(--dim)">Contactez Sadikh pour accéder</div>`}
+    </div>`;
+  }).join('');
+}
+
+// ── PLAYER ────────────────────────────────────────────────────────
+function openCourse(cid) {
+  activeCourse = cid;
+  activeMod = 0;
+  const ms = mods[cid]||[];
+  for (let i=0;i<ms.length;i++) { if (!progress[ms[i].id]) { activeMod=i; break; } }
+  showTab('player', null);
+  renderSidebar(); loadMod(activeMod);
+}
+
+function renderSidebar() {
+  const c  = COURSES[activeCourse];
+  const ms = mods[activeCourse]||[];
+  const done = ms.filter(m=>progress[m.id]).length;
+  document.getElementById('ps-course').textContent = c.name;
+  document.getElementById('ps-prog').textContent   = done+'/'+ms.length+' complétés';
+  document.getElementById('mod-list').innerHTML = ms.map((m,i)=>
+    `<div class="mod${i===activeMod?' on':''}" onclick="loadMod(${i})">
+      <div class="mod-n">0${i+1}</div>
+      <div class="mod-info"><div class="mod-title">${m.title}</div><div class="mod-dur">${m.dur}</div></div>
+      <div class="mod-check">${progress[m.id]?'✅':'○'}</div>
+    </div>`
+  ).join('');
+}
+
+function loadMod(idx) {
+  activeMod = idx;
+  const ms = mods[activeCourse]||[];
+  const m  = ms[idx]; if (!m) return;
+  const done = !!progress[m.id];
+
+  const screen = document.getElementById('vid-screen');
+  if (m.youtube) {
+    const ytId = m.youtube.match(/(?:youtu\.be\/|[?&]v=)([^&\s]+)/)?.[1] || m.youtube;
+    screen.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1" allowfullscreen></iframe>`;
+  } else {
+    screen.innerHTML = `<div class="video-placeholder"><div class="vp-icon">🎬</div><div class="vp-txt">Vidéo en cours d'ajout</div><div class="vp-sub">Sadikh upload bientôt</div></div>`;
+  }
+
+  document.getElementById('vid-title').textContent = m.title;
+  document.getElementById('vid-meta').textContent  = 'Module '+(idx+1)+' · '+COURSES[activeCourse].name;
+
+  const bd = document.getElementById('btn-done');
+  bd.disabled = done; bd.textContent = done?'✓ Terminé':'✓ Marquer comme terminé';
+  bd.style.background = done?'var(--bg4)':'var(--green)';
+  bd.style.color = done?'var(--dim)':'#000';
+
+  document.getElementById('btn-next').style.display = idx<ms.length-1?'block':'none';
+
+  const notesEl = document.getElementById('vid-notes');
+  if (m.notes) { notesEl.style.display='block'; document.getElementById('vid-notes-txt').textContent=m.notes; }
+  else notesEl.style.display='none';
+
+  renderSidebar();
+}
+
+async function markDone() {
+  const ms = mods[activeCourse]||[];
+  const m  = ms[activeMod]; if (!m||progress[m.id]) return;
+  progress[m.id] = true;
+
+  try {
+    const {token} = JSON.parse(localStorage.getItem('14t_cu')||'{}');
+    await fetch(SERVER+'/api/courses/progress', {
+      method:'POST', headers:{'Content-Type':'application/json','x-course-token':token||''},
+      body: JSON.stringify({moduleId:m.id, courseId:activeCourse})
+    });
+  } catch(e) {}
+
+  history.unshift({text:`Module terminé — ${COURSES[activeCourse].name} · ${m.title}`, time:new Date().toLocaleDateString('fr-FR')});
+  showToast('✅ Module terminé !');
+  loadMod(activeMod); renderDash(); renderHist();
+  if (activeMod < ms.length-1) setTimeout(()=>loadMod(activeMod+1), 800);
+}
+
+function nextMod() {
+  if (activeMod < (mods[activeCourse]||[]).length-1) loadMod(activeMod+1);
+}
+
+// ── LEADERBOARD ───────────────────────────────────────────────────
+async function renderLb() {
+  const body = document.getElementById('lb-body');
+  try {
+    const r = await fetch(SERVER+'/api/courses/leaderboard');
+    const d = await r.json();
+    const students = d.students||[];
+    if (!students.length) { body.innerHTML='<div class="empty"><div class="empty-icon">🏆</div><div class="empty-title">Bientôt disponible</div><div class="empty-sub">Soyez le premier à compléter un module.</div></div>'; return; }
+    const stages=[{min:8,l:'💎 Diamond',bg:'#4A9EFF15',c:'#4A9EFF'},{min:6,l:'🥇 Gold',bg:'#FFD70015',c:var_gold},{min:4,l:'🥈 Silver',bg:'#C0C0C015',c:'#C0C0C0'},{min:0,l:'🥉 Starter',bg:'#33333315',c:'#555'}];
+    const getS = n => stages.find(s=>n>=s.min)||stages[3];
+    body.innerHTML = students.map((s,i) => {
+      const rank = i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1);
+      const isMe = s.email===user?.email;
+      const st   = getS(s.totalDone||0);
+      return `<div class="lb-row${isMe?' me':''}">
+        <div class="lb-rank" style="${i<3?'color:var(--gold2)':''}">${rank}</div>
+        <div><div class="lb-name">${s.name||s.email.split('@')[0]}${isMe?' (vous)':''}</div><div class="lb-sub">${(s.courses||[]).join(', ')}</div></div>
+        <div class="lb-prog-w"><div class="lb-prog-bar"><div class="lb-prog-fill" style="width:${s.pct||0}%"></div></div><div class="lb-prog-pct">${s.pct||0}%</div></div>
+        <div class="lb-mods">${s.totalDone||0}/${s.totalMods||0}</div>
+        <div><span class="lb-stage" style="background:${st.bg};color:${st.c}">${st.l}</span></div>
+      </div>`;
+    }).join('');
+  } catch(e) { body.innerHTML='<div class="empty"><div class="empty-title">Classement bientôt</div></div>'; }
+}
+const var_gold = '#C9A84C';
+
+// ── HISTORY ───────────────────────────────────────────────────────
+function renderHist() {
+  const el = document.getElementById('hist-list');
+  if (!history.length) { el.innerHTML='<div class="empty"><div class="empty-icon">📋</div><div class="empty-title">Aucune activité</div><div class="empty-sub">Commencez un module pour voir votre historique.</div></div>'; return; }
+  el.innerHTML = history.slice(0,30).map(h=>`<div class="hist-item"><div class="hist-dot"></div><div class="hist-txt">${h.text}</div><div class="hist-time">${h.time}</div></div>`).join('');
+}
+
+// ── COMPETITION ──────────────────────────────────────────────────
+let compData = null;
+let compTimer = null;
+
+async function loadCompetition() {
+  try {
+    const r = await fetch(SERVER+'/api/competition/current');
+    const d = await r.json();
+    if (d.ok && d.competition) {
+      compData = d;
+      showCompetition(d);
+    } else {
+      document.getElementById('comp-active').style.display = 'none';
+      document.getElementById('comp-none').style.display = 'block';
+    }
+  } catch(e) {
+    document.getElementById('comp-active').style.display = 'none';
+    document.getElementById('comp-none').style.display = 'block';
+  }
+}
+
+function showCompetition(d) {
+  const c = d.competition;
+  const entries = d.entries || [];
+  document.getElementById('comp-active').style.display = 'block';
+  document.getElementById('comp-none').style.display = 'none';
+  document.getElementById('comp-name').textContent = c.name;
+  document.getElementById('comp-period').textContent =
+    new Date(c.start_date).toLocaleDateString('fr-FR') + ' → ' +
+    new Date(c.end_date).toLocaleDateString('fr-FR');
+  document.getElementById('comp-participants').textContent = entries.length;
+  startCompCountdown(new Date(c.end_date));
+  renderCompLeaderboard(entries);
+}
+
+function startCompCountdown(endDate) {
+  if (compTimer) clearInterval(compTimer);
+  compTimer = setInterval(() => {
+    const ms = endDate - Date.now();
+    const el = document.getElementById('comp-countdown');
+    if (!el) return;
+    if (ms <= 0) { el.textContent = 'Terminée'; clearInterval(compTimer); return; }
+    const d = Math.floor(ms / 86400000);
+    const h = Math.floor((ms % 86400000) / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    const s = Math.floor((ms % 60000) / 1000);
+    el.textContent = d + 'j ' + String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  }, 1000);
+}
+
+function renderCompLeaderboard(entries) {
+  const el = document.getElementById('comp-leaderboard');
+  if (!entries.length) {
+    el.innerHTML = '<div class="empty" style="padding:32px"><div class="empty-title">Pas encore de résultats</div><div class="empty-sub">Les classements apparaissent après vérification</div></div>';
+    return;
+  }
+  const medals = ['🥇','🥈','🥉'];
+  el.innerHTML = entries.map((e,i) => {
+    const gain = parseFloat(e.gain_pct) || 0;
+    const color = gain >= 0 ? 'var(--green)' : 'var(--red)';
+    return '<div style="display:grid;grid-template-columns:44px 1fr 80px 80px;padding:12px 16px;border-bottom:1px solid var(--border);align-items:center;font-size:13px">' +
+      '<div style="font-size:16px">' + (medals[i] || '#'+(i+1)) + '</div>' +
+      '<div><div style="font-weight:500">' + e.name + '</div></div>' +
+      '<div style="font-family:var(--mono);font-weight:700;color:' + color + '">' + (gain >= 0 ? '+' : '') + gain.toFixed(1) + '%</div>' +
+      '<div style="font-family:var(--mono);font-size:11px;color:var(--muted)">' + (e.trades||0) + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+function showJoinForm() {
+  document.getElementById('join-form').style.display = 'block';
+  document.getElementById('btn-join-comp').style.display = 'none';
+}
+
+async function joinCompetition() {
+  const name    = document.getElementById('join-name')?.value.trim();
+  const email   = document.getElementById('join-email')?.value.trim();
+  const hfm     = document.getElementById('join-hfm')?.value.trim();
+  const balance = document.getElementById('join-balance')?.value.trim();
+
+  if (!name || !hfm || !balance) { showToast('❌ Remplissez tous les champs'); return; }
+
+  try {
+    const r = await fetch(SERVER+'/api/competition/join', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({name, email, hfmAccount:hfm, startBalance:parseFloat(balance)})
+    });
+    const d = await r.json();
+    if (d.ok) {
+      showToast('✅ Inscription enregistrée !');
+      document.getElementById('join-form').style.display = 'none';
+      document.getElementById('btn-join-comp').textContent = '✓ Inscrit — en attente de vérification';
+      document.getElementById('btn-join-comp').style.background = 'var(--bg4)';
+      document.getElementById('btn-join-comp').style.color = 'var(--muted)';
+      document.getElementById('btn-join-comp').disabled = true;
+    } else {
+      showToast('❌ ' + (d.error||'Erreur'));
+    }
+  } catch(e) {
+    showToast('❌ Erreur réseau');
+  }
+}
+
+
+// ── PAYMENT SYSTEM ──────────────────────────────────────────────
+const COURSES_PAYMENT = {
+  day:   { name:'Day Trading — accès à vie',   amount:'$300', price:300 },
+  swing: { name:'Swing Trading — accès à vie', amount:'$500', price:500 },
+  combo: { name:'Combo — accès complet',       amount:'$700', price:700 },
+  alert: { name:'14 Trades Alert — 1 mois',   amount:'$100', price:100 },
+  elite: { name:'14 Trades Elite — 1 mois',   amount:'$200', price:200 },
+};
+let selectedCryptoMethod = 'usdt';
+const WALLETS = {
+  usdt: { name:'USDT TRC20', address:'TXsVYTT3qWXyHWBGr7SEBZXNAG7k2poeuZ' },
+  usdc: { name:'USDC ERC20', address:'0xc030af2d98da2ed86f96d146a8b94abdd7b44352' },
+};
+
+function openPayment(courseKey) {
+  const course = COURSES_PAYMENT[courseKey];
+  if (!course) return;
+  document.getElementById('pay-title').textContent = 'Accéder à la formation';
+  document.getElementById('pay-sub').textContent = 'Choisissez votre mode de paiement';
+  document.getElementById('pay-amount-val').textContent = course.amount;
+  document.getElementById('pay-course-name').textContent = course.name;
+  document.getElementById('crypto-amount').textContent = course.amount;
+  document.getElementById('payment-modal').classList.add('open');
+  switchPayTab('mobile', document.querySelector('.pay-tab'));
+  document.body.style.overflow = 'hidden';
+}
+
+function closePayment() {
+  document.getElementById('payment-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchPayTab(tab, btn) {
+  document.querySelectorAll('.pay-tab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.pay-section').forEach(s=>s.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('pay-'+tab).classList.add('on');
+}
+
+function selectMethod(el, method) {
+  document.querySelectorAll('#pay-mobile .pay-method').forEach(m=>m.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectCrypto(el, method) {
+  selectedCryptoMethod = method;
+  document.querySelectorAll('#pay-crypto .pay-method').forEach(m=>m.classList.remove('selected'));
+  el.classList.add('selected');
+  const w = WALLETS[method];
+  const amount = document.getElementById('pay-amount-val').textContent;
+  document.getElementById('crypto-info').innerHTML =
+    'Adresse <strong>'+w.name+'</strong> :<br>' +
+    '<strong style="color:var(--gold);font-size:11px;word-break:break-all">'+w.address+'</strong><br><br>' +
+    'Envoyez exactement <strong>'+amount+'</strong> en '+w.name+'.<br>' +
+    'Puis partagez le hash de transaction sur WhatsApp : <strong>+221788255099</strong>';
+  document.getElementById('crypto-amount').textContent = amount;
+}
+
+function copyAddress() {
+  const w = WALLETS[selectedCryptoMethod];
+  navigator.clipboard.writeText(w.address).then(()=>{
+    showToast('✅ Adresse copiée !');
+  }).catch(()=>{
+    showToast(w.address);
+  });
+}
+
+// Close modal on overlay click
+document.getElementById('payment-modal').addEventListener('click', function(e){
+  if (e.target === this) closePayment();
+});
+
+// ── BOOT ──────────────────────────────────────────────────────────
+window.addEventListener('load', async () => {
+  const saved = localStorage.getItem('14t_cu');
+  if (saved) {
+    try {
+      const {token, student} = JSON.parse(saved);
+      user = student;
+      await Promise.all([fetchProgress(token), fetchVideos()]);
+      openApp(); return;
+    } catch(e) { localStorage.removeItem('14t_cu'); }
+  }
+  document.getElementById('inp-pass').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+  document.getElementById('inp-email').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('inp-pass').focus(); });
+});
+</script>
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="payment-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePayment()">✕</button>
+    <div id="payment-content">
+      <div class="modal-title" id="pay-title">Accéder à la formation</div>
+      <div class="modal-sub" id="pay-sub">Choisissez votre mode de paiement</div>
+
+      <div class="pay-amount">
+        <div class="pay-amount-val" id="pay-amount-val">$300</div>
+        <div class="pay-amount-lbl" id="pay-course-name">Day Trading — accès à vie</div>
+      </div>
+
+      <div class="pay-tabs">
+        <button class="pay-tab on" onclick="switchPayTab('mobile',this)">📱 Mobile Money</button>
+        <button class="pay-tab" onclick="switchPayTab('crypto',this)">💰 Crypto</button>
+      </div>
+
+      <!-- MOBILE MONEY -->
+      <div class="pay-section on" id="pay-mobile">
+        <div class="pay-method selected" onclick="selectMethod(this,'wave')">
+          <div class="pay-method-icon">🌊</div>
+          <div><div class="pay-method-name">Wave</div><div class="pay-method-sub">Sénégal · Instantané</div></div>
+          <div class="pay-method-radio"></div>
+        </div>
+        <div class="pay-method" onclick="selectMethod(this,'orange')">
+          <div class="pay-method-icon">🟠</div>
+          <div><div class="pay-method-name">Orange Money</div><div class="pay-method-sub">Sénégal · Instantané</div></div>
+          <div class="pay-method-radio"></div>
+        </div>
+        <div class="pay-info">
+          Envoyez le paiement au :<br>
+          <strong>+221 78 825 5099 (Sadikh Sarr)</strong><br><br>
+          Puis envoyez une capture d'écran de confirmation sur WhatsApp au même numéro.<br>
+          Accès activé dans les <strong>24h</strong>.
+        </div>
+        <a href="https://wa.me/221788255099" target="_blank">
+          <button class="btn-pay" id="btn-mobile-pay">Confirmer sur WhatsApp →</button>
+        </a>
+      </div>
+
+      <!-- CRYPTO -->
+      <div class="pay-section" id="pay-crypto">
+        <div class="pay-method selected" onclick="selectCrypto(this,'usdt')">
+          <div class="pay-method-icon">💵</div>
+          <div><div class="pay-method-name">USDT TRC20</div><div class="pay-method-sub">Tron Network · Frais minimes</div></div>
+          <div class="pay-method-radio"></div>
+        </div>
+        <div class="pay-method" onclick="selectCrypto(this,'usdc')">
+          <div class="pay-method-icon">🔵</div>
+          <div><div class="pay-method-name">USDC ERC20</div><div class="pay-method-sub">Ethereum Network</div></div>
+          <div class="pay-method-radio"></div>
+        </div>
+        <div class="pay-info" id="crypto-info">
+          Adresse <strong>USDT TRC20</strong> :<br>
+          <strong style="color:var(--gold);font-size:11px;word-break:break-all">TXsVYTT3qWXyHWBGr7SEBZXNAG7k2poeuZ</strong><br><br>
+          Envoyez exactement <strong id="crypto-amount">$300</strong> en USDT TRC20.<br>
+          Puis partagez le hash de transaction sur WhatsApp : <strong>+221788255099</strong>
+        </div>
+        <button class="btn-pay" onclick="copyAddress()">📋 Copier l'adresse</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
